@@ -1,10 +1,11 @@
 import { useState, useRef, useCallback, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Heart, ShoppingCart, Check, ImageIcon } from "lucide-react";
+import { Heart, ShoppingCart, Check } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { Product } from "@/types";
 import { Link, useNavigate } from "react-router";
 import { useCart } from "@/lib/cart-context";
+import { OptimizedImage } from "@/components/shared/OptimizedImage";
 import { toast } from "sonner";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
