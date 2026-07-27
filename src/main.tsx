@@ -3,6 +3,15 @@ import { ThemeProvider } from "@/hooks/use-theme";
 import { CartProvider } from "@/lib/cart-context";
 import React, { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
+// Register service worker for image caching (production only)
+if ('serviceWorker' in navigator && import.meta.env.PROD) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/sw.js').catch(() => {
+      // SW registration failed — site still works without it
+    });
+  });
+}
+
 import "./index.css";
 import App from "./App";
 
