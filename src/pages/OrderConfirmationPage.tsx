@@ -32,9 +32,9 @@ const demoOrder = {
     region: "Dar es Salaam",
   },
   items: [
-    { productId: "p1", name: "iPhone 15 Pro Max 256GB", image: products[0].images[0], price: 3150000, quantity: 1, seller: "TechHub Tanzania" },
-    { productId: "p17", name: "Wireless Noise-Canceling Earbuds Pro", image: products[16].images[0], price: 145000, quantity: 1, seller: "TechHub Tanzania" },
-    { productId: "p29", name: "Stainless Steel Water Bottle 1L", image: products[28].images[0], price: 28000, quantity: 2, seller: "SportZone TZ" },
+    { productId: "p1", slug: products[0].slug, name: "iPhone 15 Pro Max 256GB", image: products[0].images[0], price: 3150000, quantity: 1, seller: "TechHub Tanzania" },
+    { productId: "p17", slug: products[16].slug, name: "Wireless Noise-Canceling Earbuds Pro", image: products[16].images[0], price: 145000, quantity: 1, seller: "TechHub Tanzania" },
+    { productId: "p29", slug: products[28].slug, name: "Stainless Steel Water Bottle 1L", image: products[28].images[0], price: 28000, quantity: 2, seller: "SportZone TZ" },
   ],
 };
 
@@ -126,7 +126,7 @@ export default function OrderConfirmationPage() {
                       <OptimizedImage src={item.image} alt={item.name} wrapperClassName="h-full w-full" shimmer={false} />
                     </div>
                     <div className="flex-1 min-w-0">
-                      <Link to={`/product/${item.productId}`} className="text-sm font-medium hover:text-primary transition-colors truncate block">
+                      <Link to={`/product/${item.slug}`} className="text-sm font-medium hover:text-primary transition-colors truncate block">
                         {item.name}
                       </Link>
                       <p className="text-[10px] text-muted-foreground">Sold by {item.seller}</p>
