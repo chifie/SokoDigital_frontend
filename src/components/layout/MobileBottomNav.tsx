@@ -1,7 +1,7 @@
 import { Link, useLocation } from "react-router";
 import { motion } from "framer-motion";
 import {
-  Home, Sparkles, ShoppingCart, User,
+  Home, Bot, ShoppingCart, User,
   Search
 } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -10,7 +10,7 @@ import { useCart } from "@/lib/cart-context";
 const navItems = [
   { icon: Home, label: "Home", path: "/" },
   { icon: Search, label: "Search", path: "/marketplace" },
-  { icon: Sparkles, label: "AI Assist", path: "/chat" },
+  { icon: Bot, label: "AI Assist", path: "/chat" },
   { icon: ShoppingCart, label: "Cart", path: "/cart" },
   { icon: User, label: "Profile", path: "/auth" },
 ];

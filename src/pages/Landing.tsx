@@ -13,7 +13,7 @@ import { ProductCardSkeleton } from "@/components/product/ProductCardSkeleton";
 import { categories, products, sellers, stats } from "@/lib/constants";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { BadgeCheck, Eye, Users, Store, Package, ShoppingCart, Sparkles } from "lucide-react";
+import { BadgeCheck, Eye, Users, Store, Package, ShoppingCart } from "lucide-react";
 import { useGsapScroll } from "@/hooks/use-gsap-scroll";
 import { useTheme } from "@/hooks/use-theme";
 
@@ -382,17 +382,8 @@ export default function Landing() {
         {/* ─── Featured Products ─── */}
         <section className="landing-featured-section px-4 sm:px-8 lg:px-12 xl:px-16 mt-8">
           <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-amber-50/80 via-background to-background dark:from-amber-950/10 border border-amber-200/50 dark:border-amber-800/30 p-5 sm:p-6">
-            {/* Decorative sparkle dots */}
-            <div className="absolute -top-6 -right-6 w-20 h-20 rounded-full bg-amber-300/10 blur-xl pointer-events-none" />
-            <div className="absolute -bottom-4 -left-4 w-16 h-16 rounded-full bg-amber-400/10 blur-lg pointer-events-none" />
-
             <div className="flex items-center justify-between mb-4 relative z-10">
-              <div className="flex items-center gap-2">
-                <div className="h-5 w-5 rounded-full bg-amber-400/20 flex items-center justify-center">
-                  <Sparkles className="h-3 w-3 text-amber-500" />
-                </div>
-                <h2 className="landing-section-title text-sm font-bold text-foreground">Featured Products</h2>
-              </div>
+              <h2 className="landing-section-title text-sm font-bold text-foreground">Featured Products</h2>
               <Link to="/marketplace?sort=featured" className="landing-view-more text-[11px] text-primary hover:underline font-medium">View all</Link>
             </div>
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-2 sm:gap-4 relative z-10">
@@ -403,8 +394,7 @@ export default function Landing() {
                     <ProductCard product={product} index={index} />
                   </div>
                   <div className="absolute top-2 left-2 z-10">
-                    <span className="inline-flex items-center gap-0.5 px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-wider bg-amber-400/90 text-amber-950 rounded-full shadow-xs">
-                      <Sparkles className="h-2.5 w-2.5" />
+                    <span className="inline-flex items-center px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-wider bg-amber-400/90 text-amber-950 rounded-full shadow-xs">
                       Featured
                     </span>
                   </div>

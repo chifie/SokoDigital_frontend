@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router";
 import { AnimatePresence, motion } from "framer-motion";
 import {
   Search, ShoppingCart, Heart, Bell, MessageCircle,
-  Menu, X, Sparkles, Store, Moon, Sun, User, LogOut, LayoutDashboard
+  Menu, X, Store, Moon, Sun, User, LogOut, LayoutDashboard, ShoppingBag
 } from "lucide-react";
 import { Logo } from "@/components/Logo";
 import {
@@ -238,7 +238,7 @@ export function Header() {
               <DropdownMenuSeparator />
               {[
                 { icon: ShoppingCart, title: "Order Shipped!", desc: "Your iPhone 15 is on its way" },
-                { icon: Sparkles, title: "Flash Sale! 60% Off", desc: "Electronics deals end soon" },
+                { icon: ShoppingBag, title: "Flash Sale! 60% Off", desc: "Electronics deals end soon" },
                 { icon: MessageCircle, title: "Seller responded", desc: "TechHub Tanzania replied" },
               ].map((n, i) => {
                 const Icon = n.icon;
