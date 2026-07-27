@@ -556,7 +556,7 @@ export const banners: Banner[] = [
     mobileImage: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=800&q=100&fm=webp&fit=crop",
     badge: "New Arrivals",
     type: "hero",
-    priority: 5
+    priority: 5,
     isActive: true,
     startDate: new Date().toISOString(),
     endDate: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(),
