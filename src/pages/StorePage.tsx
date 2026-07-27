@@ -9,6 +9,7 @@ import { ProductCard } from "@/components/product/ProductCard";
 import { sellers, products } from "@/lib/constants";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { OptimizedImage } from "@/components/shared/OptimizedImage";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 gsap.registerPlugin(ScrollTrigger);
@@ -60,7 +61,7 @@ export default function StorePage() {
             {/* Store Logo */}
             <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-2xl border-4 border-background bg-card overflow-hidden shadow-xl shrink-0">
               {seller.logo ? (
-                <img src={seller.logo} alt={seller.storeName} className="w-full h-full object-cover" />
+                <OptimizedImage src={seller.logo} alt={seller.storeName} wrapperClassName="w-full h-full" shimmer={false} />
               ) : (
                 <div className="w-full h-full flex items-center justify-center bg-primary/10">
                   <Store className="h-10 w-10 text-primary" />
