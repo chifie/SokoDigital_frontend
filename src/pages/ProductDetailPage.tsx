@@ -18,6 +18,7 @@ import { useCart } from "@/lib/cart-context";
 import { useAuth } from "@/lib/auth";
 import { cn, getRatingColor, formatTZS } from "@/lib/utils";
 import { toast } from "sonner";
+import { OptimizedImage } from "@/components/shared/OptimizedImage";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 gsap.registerPlugin(ScrollTrigger);
@@ -190,10 +191,13 @@ export default function ProductDetailPage() {
             {/* Left - Image Gallery */}
             <div className="pd-gallery space-y-3">
               <div className="relative aspect-square rounded-xl overflow-hidden bg-muted border border-border/50 group">
-                <img
+                <OptimizedImage
                   src={product.images[selectedImage]}
                   alt={product.name}
                   className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  wrapperClassName="absolute inset-0"
+                  shimmer={true}
+                  loading="eager"
                 />
                 {discount > 0 && (
                   <span className="absolute top-3 left-3 rounded-full bg-rose-500 px-3 py-1 text-xs font-bold text-white shadow-lg">
@@ -212,7 +216,7 @@ export default function ProductDetailPage() {
                   <button key={i} onClick={() => setSelectedImage(i)}
                     className={cn("aspect-square rounded-lg overflow-hidden border-2 transition-all", selectedImage === i ? "border-primary" : "border-border/50 hover:border-primary/50")}
                   >
-                    <img src={img} alt="" className="h-full w-full object-cover" />
+                    <OptimizedImage src={img} alt="" wrapperClassName="h-full w-full" shimmer={false} />
                   </button>
                 ))}
               </div>
@@ -223,7 +227,7 @@ export default function ProductDetailPage() {
               {/* Seller */}
               <div className="flex items-center gap-2">
                 <div className="h-5 w-5 rounded-full bg-primary/10 flex items-center justify-center overflow-hidden">
-                  <img src={product.seller.logo} alt="" className="h-5 w-5 object-cover" />
+                  <OptimizedImage src={product.seller.logo} alt="" wrapperClassName="h-5 w-5" className="rounded-full" shimmer={false} />
                 </div>
                 <span className="text-xs text-muted-foreground">
                   Sold by <Link to={`/store/${product.seller.id}`} className="text-foreground font-medium hover:text-primary">{product.seller.storeName}</Link>
@@ -315,7 +319,7 @@ export default function ProductDetailPage() {
               {/* Seller Info Card */}
               <Link to={`/store/${product.seller.id}`} className="flex items-center gap-3 p-3 rounded-lg border border-border/50 bg-card hover:shadow-sm transition group">
                 <div className="h-12 w-12 rounded-lg overflow-hidden ring-2 ring-border/50 flex-shrink-0">
-                  <img src={product.seller.logo} alt="" className="h-full w-full object-cover" />
+                  <OptimizedImage src={product.seller.logo} alt="" wrapperClassName="h-full w-full" shimmer={false} />
                 </div>
                 <div className="flex-1 min-w-0">
                   <p className="text-sm font-medium group-hover:text-primary transition-colors">{product.seller.storeName}</p>
@@ -446,7 +450,7 @@ export default function ProductDetailPage() {
                           />
                           {reviewImages.map((img, i) => (
                             <div key={i} className="relative h-16 w-16 rounded-lg overflow-hidden border border-border/50">
-                              <img src={img} alt="" className="h-full w-full object-cover" />
+                              <OptimizedImage src={img} alt="" wrapperClassName="h-full w-full" shimmer={false} />
                               <button
                                 onClick={() => {
                                   URL.revokeObjectURL(reviewImages[i]);
@@ -485,7 +489,7 @@ export default function ProductDetailPage() {
                   >
                     <div className="flex items-center gap-2 mb-1.5">
                       <div className="h-7 w-7 rounded-full bg-muted flex items-center justify-center text-xs font-bold text-primary overflow-hidden">
-                        {review.avatar ? <img src={review.avatar} alt="" className="h-full w-full object-cover" /> : review.user[0]}
+                        {review.avatar ? <OptimizedImage src={review.avatar} alt="" wrapperClassName="h-full w-full" className="rounded-full" shimmer={false} /> : review.user[0]}
                       </div>
                       <div>
                         <p className="text-xs font-medium">{review.user}</p>
@@ -500,7 +504,7 @@ export default function ProductDetailPage() {
                       <div className="flex gap-1.5 mt-2">
                         {review.images.map((img, j) => (
                           <div key={j} className="h-12 w-12 rounded-lg overflow-hidden border border-border/30">
-                            <img src={img} alt="" className="h-full w-full object-cover" />
+                            <OptimizedImage src={img} alt="" wrapperClassName="h-full w-full" shimmer={false} />
                           </div>
                         ))}
                       </div>
