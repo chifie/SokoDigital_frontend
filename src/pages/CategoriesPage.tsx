@@ -4,29 +4,31 @@ import { motion } from "framer-motion";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 gsap.registerPlugin(ScrollTrigger);
-import { Search, ChevronRight } from "lucide-react";
+import { Search, ChevronRight, Smartphone, Monitor, Zap, Shirt, Footprints, Sparkles, ShoppingCart, Armchair, Home, Gamepad2, Car, Trophy, Baby, BookOpen, Heart } from "lucide-react";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { MobileBottomNav } from "@/components/layout/MobileBottomNav";
 import { categories } from "@/lib/constants";
 import { OptimizedImage } from "@/components/shared/OptimizedImage";
 
-const CATEGORY_ICONS: Record<string, string> = {
-  "Phones & Tablets": "📱",
-  "Computers": "💻",
-  "Electronics": "⚡",
-  "Fashion": "👗",
-  "Shoes": "👟",
-  "Beauty": "💄",
-  "Groceries": "🛒",
-  "Furniture": "🪑",
-  "Home & Kitchen": "🏠",
-  "Gaming": "🎮",
-  "Automotive": "🚗",
-  "Sports": "🏆",
-  "Baby Products": "👶",
-  "Books": "📚",
-  "Health": "❤️",
+import type { LucideIcon } from "lucide-react";
+
+const CATEGORY_ICONS: Record<string, LucideIcon> = {
+  "Phones & Tablets": Smartphone,
+  "Computers": Monitor,
+  "Electronics": Zap,
+  "Fashion": Shirt,
+  "Shoes": Footprints,
+  "Beauty": Sparkles,
+  "Groceries": ShoppingCart,
+  "Furniture": Armchair,
+  "Home & Kitchen": Home,
+  "Gaming": Gamepad2,
+  "Automotive": Car,
+  "Sports": Trophy,
+  "Baby Products": Baby,
+  "Books": BookOpen,
+  "Health": Heart,
 };
 
 export default function CategoriesPage() {
@@ -72,7 +74,7 @@ export default function CategoriesPage() {
               placeholder="Search categories..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-border bg-background text-sm focus:outline-none focus:ring-2 focus:ring-primary/30"
+              className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-border bg-background text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 scrollbar-hide"
             />
           </div>
 
@@ -95,8 +97,12 @@ export default function CategoriesPage() {
                 </div>
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
                 <div className="absolute bottom-0 left-0 right-0 p-3">
-                  <h3 className="text-sm font-bold text-white drop-shadow-sm">
-                    {CATEGORY_ICONS[cat.name] || "📦"} {cat.name}
+                  <h3 className="text-sm font-bold text-white drop-shadow-sm flex items-center gap-1.5">
+                    {(function() {
+                      const Icon = CATEGORY_ICONS[cat.name];
+                      return Icon ? <Icon className="h-4 w-4" /> : null;
+                    })()}
+                    {cat.name}
                   </h3>
                   <p className="text-[10px] text-white/70 mt-0.5">
                     {cat.productCount.toLocaleString()} products
