@@ -22,6 +22,7 @@ import { OptimizedImage } from "@/components/shared/OptimizedImage";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 gsap.registerPlugin(ScrollTrigger);
+import { usePageSEO } from "@/lib/seo";
 
 // ===== StarRating Component =====
 function StarRating({ value, onChange, size = "md", interactive = false }: {
@@ -91,6 +92,7 @@ export default function ProductDetailPage() {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const product = products.find((p) => p.slug === id) || products[0];
+  usePageSEO(product.name, `${product.description.slice(0, 150)} — Shop now on SokoDigital`);
   const discount = product.discountPrice ? Math.round(((product.price - product.discountPrice) / product.price) * 100) : 0;
   const displayPrice = product.discountPrice || product.price;
   const oldPrice = product.discountPrice ? product.price : undefined;

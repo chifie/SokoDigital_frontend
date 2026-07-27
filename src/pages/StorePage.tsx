@@ -13,7 +13,7 @@ import { OptimizedImage } from "@/components/shared/OptimizedImage";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 gsap.registerPlugin(ScrollTrigger);
-
+import { usePageSEO } from "@/lib/seo";
 
 export default function StorePage() {
   const mainRef = useRef<HTMLDivElement>(null);
@@ -21,6 +21,7 @@ export default function StorePage() {
   const seller = sellers.find((s) => s.id === id) || sellers[0];
   const storeProducts = products.filter((p) => p.seller.id === seller.id);
   const [followers, setFollowers] = useState(seller.followers);
+  usePageSEO(seller.storeName, `${seller.description} — Shop from ${seller.storeName} on SokoDigital.`);
 
   useEffect(() => {
     const main = mainRef.current;
