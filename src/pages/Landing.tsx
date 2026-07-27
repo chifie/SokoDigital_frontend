@@ -14,6 +14,7 @@ import { categories, products, sellers, stats } from "@/lib/constants";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { BadgeCheck, Eye, Users, Store, Package, ShoppingCart } from "lucide-react";
+import { OptimizedImage } from "@/components/shared/OptimizedImage";
 import { useGsapScroll } from "@/hooks/use-gsap-scroll";
 import { useTheme } from "@/hooks/use-theme";
 
@@ -359,7 +360,7 @@ export default function Landing() {
                 >
                   <div className="w-14 h-14 rounded-full overflow-hidden bg-muted flex items-center justify-center ring-2 ring-border/50 group-hover:ring-primary transition-colors">
                     {seller.logo ? (
-                      <img src={seller.logo} alt={seller.storeName} loading="lazy" className="w-full h-full object-cover" />
+                      <OptimizedImage src={seller.logo} alt={seller.storeName} wrapperClassName="w-full h-full" shimmer={false} />
                     ) : (
                       <span className="text-2xl font-bold text-primary">{seller.storeName.charAt(0)}</span>
                     )}
@@ -482,10 +483,12 @@ export default function Landing() {
                   className="landing-store-badge inline-block hover:opacity-80 transition-opacity"
                   aria-label="Download from App Store"
                 >
-                  <img
+                  <OptimizedImage
                     src="https://s.alicdn.com/@img/imgextra/i4/O1CN01i9Aj641atkjJJ9I6y_!!6000000003388-2-tps-396-132.png"
                     alt="Download from App Store"
                     className="h-10 sm:h-12 w-auto"
+                    shimmer={false}
+                    loading="lazy"
                   />
                 </a>
                 {/* Google Play */}
@@ -496,10 +499,12 @@ export default function Landing() {
                   className="landing-store-badge inline-block hover:opacity-80 transition-opacity"
                   aria-label="Download from Google Play"
                 >
-                  <img
+                  <OptimizedImage
                     src="https://s.alicdn.com/@img/imgextra/i4/O1CN018KnDNq1JleFgkjLRq_!!6000000001069-2-tps-447-132.png"
                     alt="Download from Google Play"
                     className="h-10 sm:h-12 w-auto"
+                    shimmer={false}
+                    loading="lazy"
                   />
                 </a>
               </div>
