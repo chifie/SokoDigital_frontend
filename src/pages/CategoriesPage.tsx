@@ -98,7 +98,7 @@ export default function CategoriesPage() {
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
                 <div className="absolute bottom-0 left-0 right-0 p-3">
                   <h3 className="text-sm font-bold text-white drop-shadow-sm flex items-center gap-1.5">
-                    {(function() {
+                    {(() => {
                       const Icon = CATEGORY_ICONS[cat.name];
                       return Icon ? <Icon className="h-4 w-4" /> : null;
                     })()}
