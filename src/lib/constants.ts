@@ -1,3 +1,9 @@
+import banner1Img from "@/assets/banner1.png";
+import banner2Img from "@/assets/banner2.png";
+import banner3Img from "@/assets/banner3.png";
+import banner4Img from "@/assets/banner4.webp";
+import banner5Img from "@/assets/banner5.png";
+
 import type {
   Product, Seller, Category, FlashSale, Review, Notification,
   Testimonial, Stat, Banner, AISuggestion
@@ -475,8 +481,8 @@ export const banners: Banner[] = [
     description: "From electronics and fashion to groceries and beauty — SokoDigital has it all, delivered to your door.",
     cta: "Shop Now",
     link: "/marketplace",
-    desktopImage: "https://images.unsplash.com/photo-1483985988355-763728e1935b?w=1920&q=100&fm=webp&fit=crop",
-    mobileImage: "https://images.unsplash.com/photo-1483985988355-763728e1935b?w=800&q=100&fm=webp&fit=crop",
+    desktopImage: banner1Img,
+    mobileImage: banner1Img,
     badge: "Premium Marketplace",
     type: "hero",
     priority: 1,
@@ -494,8 +500,8 @@ export const banners: Banner[] = [
     description: "Grab amazing deals on smartphones, laptops, fashion, accessories, and more before they're gone.",
     cta: "Grab Deals",
     link: "/marketplace?sort=discount",
-    desktopImage: "https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?w=1920&q=100&fm=webp&fit=crop",
-    mobileImage: "https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?w=800&q=100&fm=webp&fit=crop",
+    desktopImage: banner2Img,
+    mobileImage: banner2Img,
     badge: "Flash Sale",
     discount: 70,
     type: "hero",
@@ -514,8 +520,8 @@ export const banners: Banner[] = [
     description: "From luxury skincare to everyday essentials — elevate your beauty routine with SokoDigital.",
     cta: "Shop Cosmetics",
     link: "/marketplace?category=beauty",
-    desktopImage: "https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?w=1920&q=100&fm=webp&fit=crop",
-    mobileImage: "https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?w=800&q=100&fm=webp&fit=crop",
+    desktopImage: banner3Img,
+    mobileImage: banner3Img,
     badge: "Cosmetics",
     type: "hero",
     priority: 3,
@@ -533,8 +539,8 @@ export const banners: Banner[] = [
     description: "Free delivery on orders over 50,000 TZS. Real-time tracking. 14-day returns. Shop with peace of mind.",
     cta: "Start Shopping",
     link: "/marketplace",
-    desktopImage: "https://images.unsplash.com/photo-1558017487-06bf9f826137?w=1920&q=100&fm=webp&fit=crop",
-    mobileImage: "https://images.unsplash.com/photo-1558017487-06bf9f826137?w=800&q=100&fm=webp&fit=crop",
+    desktopImage: banner4Img,
+    mobileImage: banner4Img,
     badge: "Free Delivery",
     type: "hero",
     priority: 4,
@@ -552,8 +558,8 @@ export const banners: Banner[] = [
     description: "From gadgets to groceries — find everything you need at prices you'll love.",
     cta: "Explore Now",
     link: "/marketplace",
-    desktopImage: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=1920&q=100&fm=webp&fit=crop",
-    mobileImage: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=800&q=100&fm=webp&fit=crop",
+    desktopImage: banner5Img,
+    mobileImage: banner5Img,
     badge: "New Arrivals",
     type: "hero",
     priority: 5,
