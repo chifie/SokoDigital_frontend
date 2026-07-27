@@ -19,6 +19,7 @@ import { categories, trendingSearches, products } from "@/lib/constants";
 import { useTheme } from "@/hooks/use-theme";
 import { useCart } from "@/lib/cart-context";
 import { useAuth } from "@/lib/auth";
+import { useWishlist } from "@/lib/wishlist-context";
 
 export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -32,7 +33,7 @@ export function Header() {
   const { isDark, toggleTheme } = useTheme();
   const { itemCount: cartCount } = useCart();
   const { user, loading: authLoading, signOut } = useAuth();
-  const wishlistCount = 5;
+  const { itemCount: wishlistCount } = useWishlist();
   const notificationCount = 2;
 
   // Debounce search query
