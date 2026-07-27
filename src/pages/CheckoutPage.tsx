@@ -58,7 +58,7 @@ export default function CheckoutPage() {
                 <Check className="h-6 w-6 text-white" />
               </div>
             </div>
-            <h2 className="text-2xl font-bold mb-2">Order Placed! 🎉</h2>
+            <h2 className="text-2xl font-bold mb-2">Order Placed</h2>
             {/* eslint-disable-next-line react-hooks/purity */}
             <p className="text-muted-foreground mb-2">Your order #ORD-{Date.now().toString(36).toUpperCase()} has been placed successfully.</p>
             <p className="text-sm text-muted-foreground mb-8">You'll receive a confirmation via SMS and email shortly.</p>

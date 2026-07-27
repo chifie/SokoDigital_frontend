@@ -115,7 +115,7 @@ const DICT: Record<string, Record<Lang, string>> = {
   'footer.followUs': { en: 'Follow Us', sw: 'Tufuate' },
   'footer.subscribe': { en: 'Subscribe', sw: 'Jisajili' },
   'footer.stayInLoop': { en: 'Stay in the loop', sw: 'Endelea kufahamishwa' },
-  'footer.allRights': { en: 'All rights reserved. Made with ❤ for Tanzania', sw: 'Haki zote zimehifadhiwa. Imetengenezwa kwa ❤ kwa Tanzania' },
+  'footer.allRights': { en: 'All rights reserved for Tanzania', sw: 'Haki zote zimehifadhiwa kwa Tanzania' },
 
   // Cart
   'cart.title': { en: 'Shopping Cart', sw: 'Rukwama ya Ununuzi' },
@@ -137,7 +137,7 @@ const DICT: Record<string, Record<Lang, string>> = {
   'checkout.payment': { en: 'Payment', sw: 'Malipo' },
   'checkout.confirm': { en: 'Confirm', sw: 'Thibitisha' },
   'checkout.placeOrder': { en: 'Place Order', sw: 'Weka Oda' },
-  'checkout.orderPlaced': { en: 'Order Placed! 🎉', sw: 'Oda Imewekwa! 🎉' },
+  'checkout.orderPlaced': { en: 'Order Placed', sw: 'Oda Imewekwa' },
   'checkout.continue': { en: 'Continue Shopping', sw: 'Endelea Kununua' },
   'checkout.ssl': { en: 'Secured with 256-bit SSL encryption', sw: 'Imelindwa kwa usimbaji 256-bit SSL' },
 
@@ -146,7 +146,7 @@ const DICT: Record<string, Record<Lang, string>> = {
   'sell.becomeSeller': { en: 'Become a Seller', sw: 'Kuwa Muuzaji' },
   'sell.step': { en: 'Step {n} of 8', sw: 'Hatua {n} kati ya 8' },
   'sell.submit': { en: 'Submit Application', sw: 'Tuma Maombi' },
-  'sell.submitted': { en: 'Application Submitted! 🎉', sw: 'Maombi Yamewasilishwa! 🎉' },
+  'sell.submitted': { en: 'Application Submitted', sw: 'Maombi Yamewasilishwa' },
   'sell.approval': { en: 'Your seller application is being reviewed.', sw: 'Maombi yako yanakaguliwa.' },
   'sell.notify': { en: 'We\'ll notify you via email and SMS once approved.', sw: 'Tutakujulisha kwa barua pepe na SMS ukikubaliwa.' },
   'sell.goDashboard': { en: 'Go to Dashboard', sw: 'Nenda kwenye Dashibodi' },

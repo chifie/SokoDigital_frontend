@@ -464,7 +464,7 @@ export default function SellerOnboardingPage() {
                 <Check className="h-6 w-6 text-white" />
               </div>
             </div>
-            <h2 className="text-2xl font-bold mb-2">Application Submitted! 🎉</h2>
+            <h2 className="text-2xl font-bold mb-2">Application Submitted</h2>
             <p className="text-muted-foreground mb-2">Your seller application is being reviewed.</p>
             <p className="text-sm text-muted-foreground mb-8">We'll notify you via email and SMS once approved.</p>
             <div className="flex items-center justify-center gap-3">
