@@ -11,6 +11,7 @@ import { MobileBottomNav } from "@/components/layout/MobileBottomNav";
 import { OptimizedImage } from "@/components/shared/OptimizedImage";
 import { Button } from "@/components/ui/button";
 import { products } from "@/lib/constants";
+import { usePageSEO } from "@/lib/seo";
 
 // Demo completed order data
 const demoOrder = {
@@ -44,6 +45,7 @@ export default function OrderConfirmationPage() {
 
   // In a real app, fetch order by id from Supabase
   const order = demoOrder;
+  usePageSEO(`Order #${order.orderNumber}`, `Your order #${order.orderNumber} has been confirmed. Estimated delivery: ${order.estimatedDelivery}.`);
 
   useEffect(() => {
     const main = mainRef.current;
