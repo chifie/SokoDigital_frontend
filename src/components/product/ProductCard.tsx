@@ -182,11 +182,6 @@ export function ProductCard({ product, index = 0, compact = false }: ProductCard
       <Link to={`/product/${product.slug}`} className="block cursor-pointer">
         <div className="product-card-inner bg-card rounded-xl shadow-sm overflow-hidden dark:border dark:border-border/50">
         <div className="aspect-square overflow-hidden relative bg-muted/50 rounded-t-xl dark:bg-muted/20">
-          {/* Blur-up placeholder */}
-          {!imgLoaded && !imgError && (
-            <div className="absolute inset-0 shimmer" />
-          )}
-
           {/* Wishlist button (hidden in compact mode) */}
           {!compact && (
             <button
