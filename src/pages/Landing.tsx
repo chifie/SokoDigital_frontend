@@ -486,6 +486,8 @@ export default function Landing() {
                   <OptimizedImage
                     src="https://s.alicdn.com/@img/imgextra/i4/O1CN01i9Aj641atkjJJ9I6y_!!6000000003388-2-tps-396-132.png"
                     alt="Download from App Store"
+                    width={396}
+                    height={132}
                     className="h-10 sm:h-12 w-auto"
                     shimmer={false}
                     loading="lazy"
@@ -502,6 +504,8 @@ export default function Landing() {
                   <OptimizedImage
                     src="https://s.alicdn.com/@img/imgextra/i4/O1CN018KnDNq1JleFgkjLRq_!!6000000001069-2-tps-447-132.png"
                     alt="Download from Google Play"
+                    width={447}
+                    height={132}
                     className="h-10 sm:h-12 w-auto"
                     shimmer={false}
                     loading="lazy"
