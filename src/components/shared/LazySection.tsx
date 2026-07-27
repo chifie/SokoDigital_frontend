@@ -10,6 +10,20 @@ interface LazySectionProps {
   minHeight?: string;
 }
 
+/** Default shimmer skeleton shown while section is below the fold */
+function DefaultSkeleton({ minHeight }: { minHeight: string }) {
+  return (
+    <div
+      className="flex flex-col items-center justify-center gap-3"
+      style={{ minHeight }}
+    >
+      <div className="h-8 w-8 rounded-full shimmer" />
+      <div className="h-3 w-24 rounded-full shimmer" />
+      <div className="h-2 w-16 rounded-full shimmer" />
+    </div>
+  );
+}
+
 /**
  * Delays rendering of children until the element is within `rootMargin`
  * of the viewport.  Reduces initial JS parse / render cost for sections
@@ -44,7 +58,7 @@ export function LazySection({
 
   return (
     <div ref={ref} style={{ minHeight: visible ? undefined : minHeight }}>
-      {visible ? children : placeholder}
+      {visible ? children : (placeholder ?? <DefaultSkeleton minHeight={minHeight} />)}
     </div>
   );
 }
