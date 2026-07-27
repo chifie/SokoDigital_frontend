@@ -305,7 +305,7 @@ export function Header() {
               </DropdownMenuContent>
             </DropdownMenu>
           ) : (
-            <Link to="/auth" className="inline-flex items-center gap-1.5 text-sm font-semibold text-white hover:underline px-2 py-1.5 touch-manipulation">
+            <Link to="/auth?redirect=/marketplace" className="inline-flex items-center gap-1.5 text-sm font-semibold text-white hover:underline px-2 py-1.5 touch-manipulation">
               <User className="h-4 w-4" />
               {authLoading ? "..." : "Log In"}
             </Link>
@@ -369,7 +369,7 @@ export function Header() {
                   </div>
                 </div>
               ) : null}
-              <Link to={user ? "/dashboard" : "/auth"} className="block px-4 py-2.5 rounded-lg text-white/90 text-sm font-medium hover:bg-white/10" onClick={() => setIsMenuOpen(false)}>
+              <Link to={user ? "/dashboard" : "/auth?redirect=/marketplace"} className="block px-4 py-2.5 rounded-lg text-white/90 text-sm font-medium hover:bg-white/10" onClick={() => setIsMenuOpen(false)}>
                 {user ? "Dashboard" : "Log In / Sign Up"}
               </Link>
               <Link to="/sell" className="block px-4 py-2.5 rounded-lg text-white/90 text-sm font-medium hover:bg-white/10" onClick={() => setIsMenuOpen(false)}>

@@ -15,7 +15,8 @@ import { MobileBottomNav } from "@/components/layout/MobileBottomNav";
 import { ProductCard } from "@/components/product/ProductCard";
 import { products } from "@/lib/constants";
 import { useCart } from "@/lib/cart-context";
-import { cn, getRatingColor } from "@/lib/utils";
+import { useAuth } from "@/lib/auth";
+import { cn, getRatingColor, formatTZS } from "@/lib/utils";
 import { toast } from "sonner";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -77,6 +78,7 @@ export default function ProductDetailPage() {
   const [isWishlisted, setIsWishlisted] = useState(false);
   const [isAdded, setIsAdded] = useState(false);
   const { addItem } = useCart();
+  const { user } = useAuth();
 
   // Review state
   const [reviews, setReviews] = useState(existingReviews);
@@ -526,6 +528,73 @@ export default function ProductDetailPage() {
           </div>
         </div>
       </main>
+
+      {/* ─── Sticky Mobile Add to Cart Bar ─── */}
+      <div className="md:hidden fixed bottom-16 left-0 right-0 z-40 bg-background/95 backdrop-blur-lg border-t border-border/50 px-4 py-3 shadow-lg">
+        <div className="flex items-center gap-3 max-w-2xl mx-auto">
+          <div className="flex-1 min-w-0">
+            <p className="text-sm font-bold text-primary truncate">
+              {formatTZS(displayPrice)}
+            </p>
+            {oldPrice && (
+              <p className="text-[11px] text-muted-foreground line-through">
+                {formatTZS(oldPrice)}
+              </p>
+            )}
+          </div>
+          <div className="flex items-center bg-muted rounded-lg p-0.5 shrink-0">
+            <button
+              onClick={() => setQuantity(Math.max(1, quantity - 1))}
+              className="h-7 w-7 rounded-md hover:bg-background flex items-center justify-center transition-colors"
+            >
+              <Minus className="h-3 w-3" />
+            </button>
+            <span className="w-8 text-center text-xs font-medium">{quantity}</span>
+            <button
+              onClick={() => setQuantity(Math.min(product.quantity, quantity + 1))}
+              className="h-7 w-7 rounded-md hover:bg-background flex items-center justify-center transition-colors"
+            >
+              <Plus className="h-3 w-3" />
+            </button>
+          </div>
+          <Button
+            size="sm"
+            className="h-9 rounded-lg text-xs font-semibold gap-1.5 shrink-0"
+            onClick={() => {
+              if (!user) {
+                navigate(`/auth?redirect=/product/${product.slug}`);
+                return;
+              }
+              setIsAdded(true);
+              addItem({
+                productId: product.id, name: product.name, image: product.images[0],
+                price: product.discountPrice || product.price, quantity,
+                sellerId: product.seller.id, sellerName: product.seller.storeName, maxQuantity: product.quantity,
+              });
+              toast.success(`${product.name.slice(0, 24)}... added to cart!`, { duration: 2000 });
+              setTimeout(() => setIsAdded(false), 2000);
+            }}
+          >
+            {isAdded ? <Check className="h-3.5 w-3.5" /> : <ShoppingCart className="h-3.5 w-3.5" />}
+            {isAdded ? "Added" : "Cart"}
+          </Button>
+          <Button
+            size="sm"
+            variant="secondary"
+            className="h-9 rounded-lg text-xs font-semibold shrink-0"
+            onClick={() => {
+              if (!user) {
+                navigate(`/auth?redirect=/checkout`);
+                return;
+              }
+              navigate("/checkout");
+            }}
+          >
+            Buy
+          </Button>
+        </div>
+      </div>
+
       <Footer />
       <MobileBottomNav />
     </motion.div>

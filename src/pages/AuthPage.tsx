@@ -1,5 +1,5 @@
 import { useRef,  useState, FormEvent, useEffect } from 'react';
-import { useNavigate, Link } from 'react-router';
+import { useNavigate, useSearchParams, Link } from 'react-router';
 import { ShoppingBag, Store, Loader2 } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth, AppRole } from '@/lib/auth';
@@ -24,10 +24,12 @@ export default function AuthPage() {
   const [busy, setBusy] = useState(false);
   const navigate = useNavigate();
   const { user, loading } = useAuth();
+  const [searchParams] = useSearchParams();
+  const redirectTo = searchParams.get('redirect') || '/dashboard';
 
   useEffect(() => {
-    if (!loading && user) navigate('/dashboard', { replace: true });
-  }, [user, loading, navigate]);
+    if (!loading && user) navigate(redirectTo, { replace: true });
+  }, [user, loading, navigate, redirectTo]);
 
   const submit = async (e: FormEvent) => {
     e.preventDefault();
@@ -42,13 +44,13 @@ export default function AuthPage() {
           email,
           password,
           options: {
-            emailRedirectTo: `${window.location.origin}/dashboard`,
+            emailRedirectTo: `${window.location.origin}${redirectTo}`,
             data: { full_name: fullName, role },
           },
         });
         if (error) throw error;
       }
-      navigate('/dashboard', { replace: true });
+      navigate(redirectTo, { replace: true });
     } catch (err: unknown) {
       setError(err instanceof Error ? err.message : 'Something went wrong');
     } finally {
