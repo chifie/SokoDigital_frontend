@@ -21,7 +21,6 @@ import { AIWidget } from '@/components/site/AIWidget';
 import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
 import { MobileBottomNav } from '@/components/layout/MobileBottomNav';
-import { AIAssistant } from '@/components/ai/AIAssistant';
 
 const pageVariants = {
   initial: { opacity: 0, y: 12 },
@@ -114,6 +113,56 @@ function AboutPage() {
   );
 }
 
+function PrivacyPage() {
+  return (
+    <div className="min-h-screen flex flex-col bg-background">
+      <Header />
+      <main className="flex-1 pb-16 lg:pb-0">
+        <div className="mx-auto max-w-3xl px-4 py-12">
+          <h1 className="text-3xl font-bold mb-4">Privacy Policy</h1>
+          <div className="space-y-4 text-sm text-muted-foreground leading-relaxed">
+            <p>At SokoDigital, we take your privacy seriously. This policy describes how we collect, use, and protect your personal information.</p>
+            <h2 className="text-lg font-semibold text-foreground">Information We Collect</h2>
+            <p>We collect information you provide when creating an account, making a purchase, or contacting our support team. This includes your name, email address, phone number, and shipping address.</p>
+            <h2 className="text-lg font-semibold text-foreground">How We Use Your Information</h2>
+            <p>Your information is used to process orders, provide customer support, improve our services, and send relevant updates about your purchases.</p>
+            <h2 className="text-lg font-semibold text-foreground">Data Protection</h2>
+            <p>We implement industry-standard security measures to protect your data. We never share your personal information with third parties without your consent.</p>
+          </div>
+        </div>
+      </main>
+      <Footer />
+      <MobileBottomNav />
+    </div>
+  );
+}
+
+function TermsPage() {
+  return (
+    <div className="min-h-screen flex flex-col bg-background">
+      <Header />
+      <main className="flex-1 pb-16 lg:pb-0">
+        <div className="mx-auto max-w-3xl px-4 py-12">
+          <h1 className="text-3xl font-bold mb-4">Terms of Service</h1>
+          <div className="space-y-4 text-sm text-muted-foreground leading-relaxed">
+            <p>Welcome to SokoDigital. By using our marketplace, you agree to these terms of service.</p>
+            <h2 className="text-lg font-semibold text-foreground">Account Registration</h2>
+            <p>You must provide accurate information when creating an account. You are responsible for maintaining the confidentiality of your login credentials.</p>
+            <h2 className="text-lg font-semibold text-foreground">Purchases & Payments</h2>
+            <p>All transactions are processed securely. Prices are listed in Tanzanian Shillings (TZS) and include applicable taxes unless stated otherwise.</p>
+            <h2 className="text-lg font-semibold text-foreground">Seller Responsibilities</h2>
+            <p>Sellers must accurately describe their products, fulfill orders promptly, and adhere to our quality standards.</p>
+            <h2 className="text-lg font-semibold text-foreground">Returns & Refunds</h2>
+            <p>Returns are accepted within 14 days of delivery for most products. See our refund policy for detailed information.</p>
+          </div>
+        </div>
+      </main>
+      <Footer />
+      <MobileBottomNav />
+    </div>
+  );
+}
+
 function ContactPage() {
   return (
     <div className="min-h-screen flex flex-col bg-background">
@@ -121,7 +170,9 @@ function ContactPage() {
       <main className="flex-1 pb-16 lg:pb-0">
         <div className="mx-auto max-w-3xl px-4 py-12">
           <h1 className="text-3xl font-bold mb-4">Contact Us</h1>
-          <p className="text-muted-foreground">support@sokodigital.co.tz</p>
+          <p className="text-muted-foreground">Email: support@sokodigital.co.tz</p>
+          <p className="text-muted-foreground mt-2">Phone: +255 712 345 678</p>
+          <p className="text-muted-foreground mt-2">Location: Dar es Salaam, Tanzania</p>
         </div>
       </main>
       <Footer />
@@ -155,6 +206,8 @@ function AppRoutes() {
         <Route path="/shops" element={<AnimatedPage><ShopsPage /></AnimatedPage>} />
         <Route path="/deals" element={<AnimatedPage><DealsPage /></AnimatedPage>} />
         <Route path="/about" element={<AnimatedPage><AboutPage /></AnimatedPage>} />
+        <Route path="/privacy" element={<AnimatedPage><PrivacyPage /></AnimatedPage>} />
+        <Route path="/terms" element={<AnimatedPage><TermsPage /></AnimatedPage>} />
         <Route path="/store/:id" element={<AnimatedPage><StorePage /></AnimatedPage>} />
         <Route path="/contact" element={<AnimatedPage><ContactPage /></AnimatedPage>} />
         <Route path="/chat" element={<AnimatedPage><AIChatPage /></AnimatedPage>} />
@@ -180,7 +233,6 @@ function App() {
       <LanguageProvider>
         <AuthProvider>
           <AppRoutes />
-          <AIAssistant />
           <AIWidget />
         </AuthProvider>
       </LanguageProvider>

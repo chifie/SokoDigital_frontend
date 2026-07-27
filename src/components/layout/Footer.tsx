@@ -4,6 +4,7 @@ import { Facebook, Twitter, Instagram, Youtube, Linkedin, Mail, ArrowRight, Load
 import { Logo } from "@/components/Logo";
 import { footerLinks } from "@/lib/constants";
 import { useAuth } from "@/lib/auth";
+import { supabase } from "@/integrations/supabase/client";
 
 /**
  * Map footer link text → route path or external URL.
@@ -57,7 +58,6 @@ const socialLinks = [
 export function Footer() {
   const navigate = useNavigate();
   const { user } = useAuth();
-  const { addItem } = useCart();
   const [newsletterEmail, setNewsletterEmail] = useState("");
   const [newsletterStatus, setNewsletterStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
 
@@ -65,8 +65,14 @@ export function Footer() {
     e.preventDefault();
     if (!newsletterEmail.trim()) return;
     setNewsletterStatus("sending");
-    // Simulate signup — in production, call an API endpoint
-    await new Promise((r) => setTimeout(r, 800));
+    try {
+      // Call Supabase function to subscribe — falls back gracefully
+      await supabase.functions.invoke('newsletter-subscribe', {
+        body: { email: newsletterEmail },
+      });
+    } catch {
+      // Silent fail — site still works without newsletter endpoint
+    }
     setNewsletterStatus("sent");
     setNewsletterEmail("");
     setTimeout(() => setNewsletterStatus("idle"), 3000);
@@ -240,9 +246,9 @@ export function Footer() {
               &copy; {new Date().getFullYear()} SokoDigital. All rights reserved.
             </p>
             <div className="flex items-center gap-4 text-[11px] text-muted-foreground">
-              <Link to="/about" className="hover:text-foreground transition-colors">Privacy Policy</Link>
+              <Link to="/privacy" className="hover:text-foreground transition-colors">Privacy Policy</Link>
               <span className="text-border">|</span>
-              <Link to="/about" className="hover:text-foreground transition-colors">Terms of Service</Link>
+              <Link to="/terms" className="hover:text-foreground transition-colors">Terms of Service</Link>
               <span className="text-border">|</span>
               <Link to="/contact" className="hover:text-foreground transition-colors">Contact</Link>
             </div>

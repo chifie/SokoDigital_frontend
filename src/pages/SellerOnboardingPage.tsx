@@ -13,7 +13,6 @@ import { Label } from "@/components/ui/label";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { MobileBottomNav } from "@/components/layout/MobileBottomNav";
-import { AIAssistant } from "@/components/ai/AIAssistant";
 import { paymentMethods } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 import { gsap } from "gsap";
@@ -475,7 +474,6 @@ export default function SellerOnboardingPage() {
         </main>
         <Footer />
         <MobileBottomNav />
-        <AIAssistant />
       </motion.div>
     );
   }
@@ -609,7 +607,6 @@ export default function SellerOnboardingPage() {
       </main>
       <Footer />
       <MobileBottomNav />
-      <AIAssistant />
     </motion.div>
   );
 }

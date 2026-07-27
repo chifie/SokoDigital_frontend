@@ -58,6 +58,28 @@ export default function AuthPage() {
     }
   };
 
+  const [resetSent, setResetSent] = useState(false);
+
+  const handleForgotPassword = async () => {
+    if (!email.trim()) {
+      setError('Please enter your email address first.');
+      return;
+    }
+    setError(null);
+    setBusy(true);
+    try {
+      const { error } = await supabase.auth.resetPasswordForEmail(email, {
+        redirectTo: `${window.location.origin}/auth`,
+      });
+      if (error) throw error;
+      setResetSent(true);
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : 'Failed to send reset email');
+    } finally {
+      setBusy(false);
+    }
+  };
+
   const google = async () => {
     setError(null);
     try {
@@ -177,6 +199,12 @@ export default function AuthPage() {
                 </div>
               )}
 
+              {resetSent && (
+                <div className="rounded-lg border border-emerald-500/40 bg-emerald-50 dark:bg-emerald-950/20 px-3 py-2 text-sm text-emerald-700 dark:text-emerald-300">
+                  Check your email for the password reset link.
+                </div>
+              )}
+
               <button
                 type="submit"
                 disabled={busy}
@@ -185,6 +213,19 @@ export default function AuthPage() {
                 {busy && <Loader2 className="h-4 w-4 animate-spin" />}
                 {mode === 'login' ? 'Sign in' : 'Create account'}
               </button>
+
+              {mode === 'login' && (
+                <div className="text-center">
+                  <button
+                    type="button"
+                    onClick={handleForgotPassword}
+                    disabled={busy}
+                    className="text-xs text-muted-foreground hover:text-primary transition-colors"
+                  >
+                    Forgot password?
+                  </button>
+                </div>
+              )}
             </form>
 
             <div className="my-5 flex items-center gap-3 text-xs uppercase tracking-widest text-muted-foreground">
