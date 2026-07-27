@@ -6,20 +6,18 @@ import { banners } from "@/lib/constants";
 import { gsap } from "gsap";
 import { useAuth } from "@/lib/auth";
 
-/* ─── Hero Component ─── */
+/* ─── Kichi‑style Hero — horizontal CSS slide, rise‑fade content, no progress bar ─── */
 export function Hero() {
   const [currentSlide, setCurrentSlide] = useState(0);
-  const [progress, setProgress] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
   const touchStartX = useRef(0);
   const touchEndX = useRef(0);
   const sectionRef = useRef<HTMLElement>(null);
-  const sliderRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const isAnimatingRef = useRef(false);
   const animTimeoutRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
   const isPausedRef = useRef(false);
-  const progressIntervalRef = useRef<ReturnType<typeof setInterval> | undefined>(undefined);
+  const autoplayRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
   const navigate = useNavigate();
   const { user } = useAuth();
 
@@ -27,197 +25,94 @@ export function Hero() {
 
   const activeBanners = banners.filter((b) => b.isActive && b.type === "hero");
 
+  /* ─── Cleanup on unmount ─── */
   useEffect(() => {
     return () => {
       if (animTimeoutRef.current) clearTimeout(animTimeoutRef.current);
-      if (progressIntervalRef.current) clearInterval(progressIntervalRef.current);
+      if (autoplayRef.current) clearTimeout(autoplayRef.current);
     };
   }, []);
 
-  /* ─── Entrance ─── */
+  /* ─── Entrance fade‑in ─── */
   useEffect(() => {
-    const section = sectionRef.current;
-    if (!section) return;
+    const el = sectionRef.current?.querySelector(".hero-slider-container");
+    if (!el) return;
     const ctx = gsap.context(() => {
-      gsap.fromTo(
-        section.querySelector(".hero-slider-container"),
-        { opacity: 0, y: 15 },
-        { opacity: 1, y: 0, duration: 0.8, ease: "power3.out" }
-      );
-    }, section);
+      gsap.fromTo(el, { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.7, ease: "power3.out" });
+    }, el);
     return () => ctx.revert();
   }, []);
 
-  /* ─── Ken Burns zoom on current slide image ─── */
-  const animateKenBurns = useCallback((index: number) => {
-    const section = sectionRef.current;
-    if (!section) return;
-    const slide = section.querySelector(`[data-slide="${index}"]`);
-    if (!slide) return;
-    const img = slide.querySelector(".ken-burns-img") as HTMLElement | null;
-    if (!img) return;
-
-    gsap.context(() => {
-      gsap.fromTo(
-        img,
-        { scale: 1, transformOrigin: "center center" },
-        {
-          scale: 1.08,
-          duration: 6,
-          ease: "power1.out",
-        }
-      );
-    }, img);
-  }, []);
-
-  /* ─── Per-slide content entrance ─── */
+  /* ─── Kichi‑style rise‑fade content entrance (CSS, not GSAP) ─── */
   const animateSlideContent = useCallback((index: number) => {
     const section = sectionRef.current;
     if (!section) return;
     const slide = section.querySelector(`[data-slide="${index}"]`);
     if (!slide) return;
 
-    gsap.context(() => {
-      gsap.fromTo(
-        slide.querySelector(".hero-badge"),
-        { opacity: 0, y: -8 },
-        { opacity: 1, y: 0, duration: 0.35, ease: "power2.out" }
-      );
-      gsap.fromTo(
-        slide.querySelector(".hero-cta"),
-        { opacity: 0, y: 10 },
-        { opacity: 1, y: 0, duration: 0.4, ease: "power2.out", delay: 0.35 }
-      );
-      gsap.fromTo(
-        slide.querySelector(".hero-trust"),
-        { opacity: 0, y: 8 },
-        { opacity: 1, y: 0, duration: 0.35, ease: "power2.out", delay: 0.55 }
-      );
-    }, slide);
+    // Trigger CSS rise‑fade animations by toggling a class
+    const badge = slide.querySelector(".hero-badge");
+    const cta = slide.querySelector(".hero-cta");
+    const trust = slide.querySelector(".hero-trust");
+
+    [badge, cta, trust].forEach((el) => {
+      if (el) {
+        el.classList.remove("rise-fade-in");
+        // Force reflow so the animation re‑triggers
+        void (el as HTMLElement).offsetWidth;
+        el.classList.add("rise-fade-in");
+      }
+    });
   }, []);
 
-  /* ─── Progress bar ─── */
-  const handleNextRef = useRef<() => void>(() => {});
-
-  const startProgress = useCallback(() => {
-    if (progressIntervalRef.current) clearInterval(progressIntervalRef.current);
-    setProgress(0);
-    const TOTAL_MS = 6000;
-    const INTERVAL_MS = 30;
-    const STEP = (INTERVAL_MS / TOTAL_MS) * 100;
-    let current = 0;
-
-    progressIntervalRef.current = setInterval(() => {
-      if (isPausedRef.current) return;
-      current += STEP;
-      if (current >= 100) {
-        current = 100;
-        setProgress(100);
-        clearInterval(progressIntervalRef.current);
-        progressIntervalRef.current = undefined;
-        handleNextRef.current();
+  /* ─── Autoplay (internal timer, no visual bar) ─── */
+  const scheduleNext = useCallback(() => {
+    if (autoplayRef.current) clearTimeout(autoplayRef.current);
+    autoplayRef.current = setTimeout(() => {
+      if (!isPausedRef.current) {
+        goToSlide((currentSlide + 1) % activeBanners.length);
       } else {
-        setProgress(current);
+        scheduleNext(); // keep waiting while paused
       }
-    }, INTERVAL_MS);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    }, 5000);
+  }, [currentSlide, activeBanners.length]);
 
-  /* ─── Slide transition — Ken Burns crossfade ─── */
-  const animateSlide = useCallback(
-    (fromIndex: number, toIndex: number) => {
-      const slider = sliderRef.current;
-      if (!slider || isAnimatingRef.current || fromIndex === toIndex) return;
+  /* ─── Kichi‑style horizontal slide ─── */
+  const goToSlide = useCallback(
+    (targetIndex: number) => {
+      if (isAnimatingRef.current || targetIndex === currentSlide) return;
       isAnimatingRef.current = true;
-      if (progressIntervalRef.current) clearInterval(progressIntervalRef.current);
+      if (autoplayRef.current) clearTimeout(autoplayRef.current);
 
-      const fromSlide = slider.querySelector(`[data-slide="${fromIndex}"]`) as HTMLElement | null;
-      const toSlide   = slider.querySelector(`[data-slide="${toIndex}"]`)   as HTMLElement | null;
-      if (!fromSlide || !toSlide) {
+      setCurrentSlide(targetIndex);
+
+      // Wait for CSS transition to finish, then animate content & restart autoplay
+      setTimeout(() => {
         isAnimatingRef.current = false;
-        startProgress();
-        return;
-      }
-
-      const fromImg = fromSlide.querySelector(".ken-burns-img") as HTMLElement | null;
-      if (fromImg) {
-        gsap.context(() => {
-          gsap.to(fromImg, { scale: 1, duration: 0.3, ease: "power2.in" });
-        }, fromImg);
-      }
-
-      gsap.context(() => {
-        const tl = gsap.timeline({
-          onComplete: () => {
-            isAnimatingRef.current = false;
-            animateSlideContent(toIndex);
-            animateKenBurns(toIndex);
-            startProgress();
-          },
-        });
-
-        tl.to(fromSlide, {
-          opacity: 0,
-          duration: 0.4,
-          ease: "power2.in",
-        });
-        tl.fromTo(
-          toSlide,
-          { opacity: 0 },
-          { opacity: 1, duration: 0.45, ease: "power2.out" },
-          "-=0.05"
-        );
-      }, slider);
-
-      animTimeoutRef.current = setTimeout(() => {
-        if (isAnimatingRef.current) {
-          isAnimatingRef.current = false;
-          animateSlideContent(toIndex);
-          animateKenBurns(toIndex);
-          startProgress();
-        }
-      }, 1000);
+        animateSlideContent(targetIndex);
+        scheduleNext();
+      }, 400); // matches CSS transition duration
     },
-    [animateSlideContent, animateKenBurns, startProgress]
+    [currentSlide, animateSlideContent, scheduleNext]
   );
 
   const handleNext = useCallback(() => {
-    setCurrentSlide((prev) => {
-      const next = (prev + 1) % activeBanners.length;
-      animateSlide(prev, next);
-      return next;
-    });
-  }, [activeBanners.length, animateSlide]);
+    const next = (currentSlide + 1) % activeBanners.length;
+    goToSlide(next);
+  }, [currentSlide, activeBanners.length, goToSlide]);
 
   const handlePrev = useCallback(() => {
-    setCurrentSlide((prev) => {
-      const prevIdx = (prev - 1 + activeBanners.length) % activeBanners.length;
-      animateSlide(prev, prevIdx);
-      return prevIdx;
-    });
-  }, [activeBanners.length, animateSlide]);
+    const prev = (currentSlide - 1 + activeBanners.length) % activeBanners.length;
+    goToSlide(prev);
+  }, [currentSlide, activeBanners.length, goToSlide]);
 
-  const goToSlide = useCallback(
-    (index: number) => {
-      setCurrentSlide((prev) => {
-        if (prev !== index) animateSlide(prev, index);
-        return index;
-      });
-    },
-    [animateSlide]
-  );
-
-  useEffect(() => {
-    handleNextRef.current = handleNext;
-  }, [handleNext]);
-
+  /* ─── Start autoplay + content animation on mount / slide change ─── */
   useEffect(() => {
     if (!activeBanners.length) return;
     animateSlideContent(currentSlide);
-    animateKenBurns(currentSlide);
-    startProgress();
+    scheduleNext();
     return () => {
-      if (progressIntervalRef.current) clearInterval(progressIntervalRef.current);
+      if (autoplayRef.current) clearTimeout(autoplayRef.current);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentSlide, activeBanners.length]);
@@ -245,7 +140,7 @@ export function Hero() {
 
   const banner = activeBanners[currentSlide];
 
-  /* ─── Handle CTA click: route based on auth status ─── */
+  /* ─── CTA routing ─── */
   const handleCTA = (e: React.MouseEvent) => {
     if (!user) {
       e.preventDefault();
@@ -264,83 +159,81 @@ export function Hero() {
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
       >
-        {/* Progress bar */}
-        <div className="absolute top-0 left-0 right-0 h-1 z-30 bg-orange-100">
-          <div
-            className="h-full bg-orange-500 rounded-r-full transition-none"
-            style={{ width: `${progress}%` }}
-          />
-        </div>
-
-        {/* Slides */}
-        <div ref={sliderRef} className="relative overflow-hidden">
-          {/* Spacer div maintains the aspect ratio */}
+        {/* ─── Kichi‑style horizontal slide track ─── */}
+        <div className="relative overflow-hidden">
+          {/* Spacer for aspect ratio */}
           <div className="w-full aspect-[21/9] sm:aspect-[21/9] lg:aspect-[64/18]" />
 
-          {activeBanners.map((b, idx) => (
-            <div
-              key={b.id}
-              data-slide={idx}
-              className={cn(
-                "absolute inset-0 w-full h-full overflow-hidden transition-none",
-                idx === currentSlide ? "opacity-100 z-[1]" : "opacity-0 z-0"
-              )}
-              style={{ pointerEvents: idx === currentSlide ? "auto" : "none" }}
-            >
-              {/* Responsive banner image with Ken Burns effect */}
-              <picture>
-                {b.avifImage && <source type="image/avif" srcSet={b.avifImage} />}
-                {b.webpImage && <source type="image/webp" srcSet={b.webpImage} />}
-                <source media="(max-width: 639px)" srcSet={b.mobileImage ?? b.desktopImage} />
-                <img
-                  src={b.desktopImage}
-                  alt={b.title}
-                  className="ken-burns-img w-full h-full object-cover will-change-transform"
-                  loading={idx === 0 ? "eager" : "lazy"}
-                />
-              </picture>
+          {/* Slide track */}
+          <div
+            className="absolute inset-0 flex transition-transform duration-[400ms] ease-in-out"
+            style={{ transform: `translateX(-${currentSlide * 100}%)` }}
+          >
+            {activeBanners.map((b, idx) => (
+              <div
+                key={b.id}
+                data-slide={idx}
+                className="relative w-full h-full shrink-0 overflow-hidden"
+              >
+                {/* Banner image */}
+                <picture>
+                  {b.avifImage && <source type="image/avif" srcSet={b.avifImage} />}
+                  {b.webpImage && <source type="image/webp" srcSet={b.webpImage} />}
+                  <source media="(max-width: 639px)" srcSet={b.mobileImage ?? b.desktopImage} />
+                  <img
+                    src={b.desktopImage}
+                    alt={b.title}
+                    className="w-full h-full object-cover"
+                    loading={idx === 0 ? "eager" : "lazy"}
+                  />
+                </picture>
 
-              {/* Subtle dark overlay */}
-              <div className="absolute inset-0 bg-gradient-to-r from-black/40 via-black/15 to-transparent z-[1]" />
+                {/* Dark overlay */}
+                <div className="absolute inset-0 bg-gradient-to-r from-black/40 via-black/15 to-transparent z-[1]" />
 
-              {/* Content wrapper */}
-              <div className="absolute inset-0 z-10 flex items-center">
-                <div className="flex flex-col justify-center px-6 sm:px-10 md:px-16 lg:px-20 max-w-2xl">
-                  {/* Badge */}
-                  {b.badge && (
-                    <span className="hero-badge inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold mb-3 sm:mb-4 w-fit bg-white/20 backdrop-blur-sm text-white shadow-sm border border-white/20">
-                      {b.badge}
-                    </span>
-                  )}
+                {/* Content */}
+                <div className="absolute inset-0 z-10 flex items-center">
+                  <div className="flex flex-col justify-center px-6 sm:px-10 md:px-16 lg:px-20 max-w-2xl">
+                    {/* Badge — rise‑fade CSS animation */}
+                    {b.badge && (
+                      <span className="hero-badge inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold mb-3 sm:mb-4 w-fit bg-white/20 backdrop-blur-sm text-white shadow-sm border border-white/20 opacity-0">
+                        {b.badge}
+                      </span>
+                    )}
 
-                  {/* CTA */}
-                  <Link
-                    to={user ? b.link || "/marketplace" : "/auth"}
-                    onClick={handleCTA}
-                    className="hero-cta mt-4 sm:mt-6 inline-flex items-center gap-2 font-bold text-xs sm:text-sm md:text-base px-5 sm:px-8 py-2.5 sm:py-3.5 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 w-fit active:scale-95 hover:scale-105 bg-orange-500 text-white hover:bg-orange-600"
-                  >
-                    {user ? b.cta || "Shop Now" : "Sign In to Shop"}
-                    <ArrowRight className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
-                  </Link>
+                    {/* CTA — rise‑fade CSS animation, delayed */}
+                    <Link
+                      to={user ? b.link || "/marketplace" : "/auth"}
+                      onClick={handleCTA}
+                      className="hero-cta mt-4 sm:mt-6 inline-flex items-center gap-2 font-bold text-xs sm:text-sm md:text-base px-5 sm:px-8 py-2.5 sm:py-3.5 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 w-fit active:scale-95 hover:scale-105 bg-orange-500 text-white hover:bg-orange-600 opacity-0"
+                      style={{ animationDelay: "0.25s" }}
+                    >
+                      {user ? b.cta || "Shop Now" : "Sign In to Shop"}
+                      <ArrowRight className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
+                    </Link>
 
-                  {/* Trust indicators */}
-                  <div className="hero-trust hidden sm:flex items-center gap-4 mt-4 text-[11px] text-white/80">
-                    <span className="flex items-center gap-1.5">
-                      <Truck className="h-3.5 w-3.5 text-orange-400" />
-                      Free delivery over 50K
-                    </span>
-                    <span className="flex items-center gap-1.5">
-                      <Shield className="h-3.5 w-3.5 text-orange-400" />
-                      Secure payment
-                    </span>
+                    {/* Trust indicators — rise‑fade CSS animation, further delayed */}
+                    <div
+                      className="hero-trust hidden sm:flex items-center gap-4 mt-4 text-[11px] text-white/80 opacity-0"
+                      style={{ animationDelay: "0.45s" }}
+                    >
+                      <span className="flex items-center gap-1.5">
+                        <Truck className="h-3.5 w-3.5 text-orange-400" />
+                        Free delivery over 50K
+                      </span>
+                      <span className="flex items-center gap-1.5">
+                        <Shield className="h-3.5 w-3.5 text-orange-400" />
+                        Secure payment
+                      </span>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
 
-        {/* Nav Arrows */}
+        {/* ─── Nav Arrows (show on hover, like Kichi) ─── */}
         {activeBanners.length > 1 && (
           <>
             <button
@@ -360,7 +253,7 @@ export function Hero() {
           </>
         )}
 
-        {/* Dot indicators */}
+        {/* ─── Dot indicators ─── */}
         {activeBanners.length > 1 && (
           <div className="absolute bottom-3 sm:bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-2 z-30">
             {activeBanners.map((_, index) => (
@@ -374,8 +267,7 @@ export function Hero() {
                     : "w-2.5 h-2.5 bg-white/40 hover:bg-white/70"
                 )}
                 style={{
-                  backgroundColor:
-                    index === currentSlide ? "#F97316" : undefined,
+                  backgroundColor: index === currentSlide ? "#F97316" : undefined,
                 }}
                 aria-label={`Go to slide ${index + 1}`}
               />
@@ -383,7 +275,7 @@ export function Hero() {
           </div>
         )}
 
-        {/* Pause indicator */}
+        {/* ─── Simple pause chip (clean, minimal) ─── */}
         {isPaused && (
           <div className="absolute top-3 sm:top-5 left-3 sm:left-5 z-30 flex items-center gap-1.5 bg-black/40 backdrop-blur-sm text-white/80 text-[10px] px-2.5 py-1 rounded-full shadow-sm border border-white/10">
             <span className="h-2 w-2 rounded-full bg-orange-400 animate-pulse" />
