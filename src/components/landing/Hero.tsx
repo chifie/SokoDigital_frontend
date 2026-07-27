@@ -1,10 +1,31 @@
-import { useState, useEffect, useCallback, useRef } from "react";
+import { useState, useEffect, useCallback, useRef, useMemo } from "react";
 import { ChevronLeft, ChevronRight, ArrowRight, Truck, Shield, ImageOff } from "lucide-react";
 import { Link, useNavigate } from "react-router";
 import { cn } from "@/lib/utils";
 import { banners } from "@/lib/constants";
 import { gsap } from "gsap";
 import { useAuth } from "@/lib/auth";
+
+/**
+ * Generate AVIF / WebP / JPEG variants from an Unsplash URL
+ * by manipulating the `fm` and `q` parameters.
+ */
+function getFormatVariants(url: string | undefined) {
+  if (!url) return { avif: "", webp: "", jpeg: "" };
+  if (!url.includes("unsplash.com")) {
+    return { avif: url, webp: url, jpeg: url };
+  }
+  const avif = url
+    .replace(/fm=\w+/g, "fm=avif")
+    .replace(/q=\d+/g, "q=80");
+  const webp = url;
+  const jpeg = url
+    .replace(/fm=\w+/g, "")
+    .replace(/\?&/g, "?")
+    .replace(/&&/g, "&")
+    .replace(/\?$/, "");
+  return { avif, webp, jpeg };
+}
 
 /* ─── Kichi‑style Hero — horizontal CSS slide, rise‑fade content, no progress bar ─── */
 export function Hero() {
@@ -182,28 +203,20 @@ export function Hero() {
                 data-slide={idx}
                 className="relative w-full h-full shrink-0 overflow-hidden"
               >
-                {/* HD Banner image — Unsplash auto-serves optimized formats */}
+                {/* HD Banner with AVIF / WebP / JPEG format negotiation */}
                 <div className="absolute inset-0">
-                  <picture className="w-full h-full block">
-                    <source media="(max-width: 639px)" srcSet={b.mobileImage ?? b.desktopImage} />
-                    <img
-                      src={b.desktopImage}
-                      alt={b.title}
-                      className="w-full h-full object-cover"
-                      loading={idx === 0 ? "eager" : "lazy"}
-                      onError={(e) => {
-                        const target = e.currentTarget;
-                        target.style.display = "none";
-                        const fallback = target.parentElement?.parentElement?.querySelector(".banner-fallback");
-                        if (fallback) (fallback as HTMLElement).style.display = "flex";
-                      }}
-                    />
-                  </picture>
-                  {/* Fallback shown when image fails */}
-                  <div className="banner-fallback absolute inset-0 hidden flex-col items-center justify-center bg-gradient-to-br from-orange-100 to-amber-50 dark:from-orange-950/30 dark:to-amber-950/20 gap-2">
-                    <ImageOff className="h-8 w-8 text-orange-400/60" />
-                    <span className="text-xs text-orange-500/80 font-medium">{b.badge || b.title}</span>
-                  </div>
+                  <FormatPicture
+                    desktopUrl={b.desktopImage}
+                    mobileUrl={b.mobileImage ?? b.desktopImage}
+                    alt={b.title}
+                    idx={idx}
+                    fallbackContent={
+                      <div className="banner-fallback hidden flex-col items-center justify-center bg-gradient-to-br from-orange-100 to-amber-50 dark:from-orange-950/30 dark:to-amber-950/20 gap-2">
+                        <ImageOff className="h-8 w-8 text-orange-400/60" />
+                        <span className="text-xs text-orange-500/80 font-medium">{b.badge || b.title}</span>
+                      </div>
+                    }
+                  />
                 </div>
 
                 {/* Dark overlay */}
