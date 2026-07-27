@@ -17,6 +17,8 @@ import AdminDashboardPage from '@/pages/AdminDashboardPage';
 import StorePage from '@/pages/StorePage';
 import { AuthProvider } from '@/lib/auth';
 import { LanguageProvider } from '@/lib/i18n';
+import { Heart, ArrowRight } from "lucide-react";
+import { Link } from "react-router";
 import { AIWidget } from '@/components/site/AIWidget';
 import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
@@ -163,6 +165,35 @@ function TermsPage() {
   );
 }
 
+function WishlistPage() {
+  return (
+    <div className="min-h-screen flex flex-col bg-background">
+      <Header />
+      <main className="flex-1 pb-16 lg:pb-0">
+        <div className="mx-auto max-w-7xl px-4 py-12">
+          <h1 className="text-3xl font-bold mb-6">My Wishlist</h1>
+          <div className="text-center py-20">
+            <Heart className="h-16 w-16 text-muted-foreground/30 mx-auto mb-4" />
+            <h2 className="text-xl font-semibold mb-2">Your wishlist is empty</h2>
+            <p className="text-sm text-muted-foreground mb-6">
+              Save your favorite items here to shop later.
+            </p>
+            <Link
+              to="/marketplace"
+              className="inline-flex items-center gap-2 rounded-full bg-primary px-6 py-2.5 text-sm font-semibold text-primary-foreground hover:opacity-90 transition-opacity"
+            >
+              Browse Products
+              <ArrowRight className="h-4 w-4" />
+            </Link>
+          </div>
+        </div>
+      </main>
+      <Footer />
+      <MobileBottomNav />
+    </div>
+  );
+}
+
 function ContactPage() {
   return (
     <div className="min-h-screen flex flex-col bg-background">
@@ -205,6 +236,7 @@ function AppRoutes() {
         <Route path="/categories" element={<AnimatedPage><CategoriesPage /></AnimatedPage>} />
         <Route path="/shops" element={<AnimatedPage><ShopsPage /></AnimatedPage>} />
         <Route path="/deals" element={<AnimatedPage><DealsPage /></AnimatedPage>} />
+        <Route path="/wishlist" element={<AnimatedPage><WishlistPage /></AnimatedPage>} />
         <Route path="/about" element={<AnimatedPage><AboutPage /></AnimatedPage>} />
         <Route path="/privacy" element={<AnimatedPage><PrivacyPage /></AnimatedPage>} />
         <Route path="/terms" element={<AnimatedPage><TermsPage /></AnimatedPage>} />
