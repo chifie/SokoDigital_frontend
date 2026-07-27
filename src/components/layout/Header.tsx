@@ -5,6 +5,7 @@ import {
   Search, ShoppingCart, Heart, Bell, MessageCircle,
   Menu, X, Store, Moon, Sun, User, LogOut, LayoutDashboard, ShoppingBag
 } from "lucide-react";
+import { OptimizedImage } from "@/components/shared/OptimizedImage";
 import { Logo } from "@/components/Logo";
 import {
   DropdownMenu,
@@ -126,7 +127,7 @@ export function Header() {
                         className="flex items-center gap-3 px-3 py-2 hover:bg-gray-50 transition-colors"
                       >
                         <div className="h-10 w-10 rounded-lg overflow-hidden bg-gray-100 shrink-0">
-                          <img src={p.images[0]} alt="" className="h-full w-full object-cover" />
+                          <OptimizedImage src={p.images[0]} alt="" wrapperClassName="h-full w-full" shimmer={false} />
                         </div>
                         <div className="min-w-0 flex-1">
                           <p className="text-sm font-medium text-gray-900 truncate">{p.name}</p>
@@ -274,7 +275,7 @@ export function Header() {
                 <button className="text-white p-1.5 group/avatar">
                   {userAvatar ? (
                     <div className="h-7 w-7 rounded-full ring-2 ring-white/30 overflow-hidden group-hover/avatar:ring-white/60 transition-all">
-                      <img src={userAvatar} alt={userName} className="h-full w-full object-cover" />
+                      <OptimizedImage src={userAvatar} alt={userName} wrapperClassName="h-full w-full" shimmer={false} loading="eager" />
                     </div>
                   ) : (
                     <div className="h-7 w-7 rounded-full bg-white/20 flex items-center justify-center text-xs font-bold text-white group-hover/avatar:bg-white/30 transition-all">
@@ -357,7 +358,7 @@ export function Header() {
               {user ? (
                 <div className="px-4 py-3 flex items-center gap-3 border-b border-white/10 mb-2">
                   {userAvatar ? (
-                    <img src={userAvatar} alt="" className="h-9 w-9 rounded-full ring-2 ring-white/30 object-cover" />
+                    <OptimizedImage src={userAvatar} alt="" wrapperClassName="h-9 w-9 rounded-full ring-2 ring-white/30" className="rounded-full" shimmer={false} loading="lazy" />
                   ) : (
                     <div className="h-9 w-9 rounded-full bg-white/20 flex items-center justify-center text-sm font-bold text-white">
                       {userName.charAt(0).toUpperCase()}
