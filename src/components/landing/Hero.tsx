@@ -182,34 +182,27 @@ export function Hero() {
                 data-slide={idx}
                 className="relative w-full h-full shrink-0 overflow-hidden"
               >
-                {/* Banner image with fallback */}
+                {/* HD Banner image — Unsplash auto-serves optimized formats */}
                 <div className="absolute inset-0">
                   <picture className="w-full h-full block">
-                    {b.avifImage && <source type="image/avif" srcSet={b.avifImage} />}
-                    {b.webpImage && <source type="image/webp" srcSet={b.webpImage} />}
                     <source media="(max-width: 639px)" srcSet={b.mobileImage ?? b.desktopImage} />
-                    {b.desktopImage ? (
-                      <img
-                        src={b.desktopImage}
-                        alt={b.title}
-                        className="w-full h-full object-cover"
-                        loading={idx === 0 ? "eager" : "lazy"}
-                        onError={(e) => {
-                          const target = e.currentTarget;
-                          target.style.display = "none";
-                          const container = target.closest('.banner-img-wrap');
-                          const fallback = container?.querySelector(".banner-fallback");
-                          if (fallback) (fallback as HTMLElement).style.display = "flex";
-                        }}
-                      />
-                    ) : null}
+                    <img
+                      src={b.desktopImage}
+                      alt={b.title}
+                      className="w-full h-full object-cover"
+                      loading={idx === 0 ? "eager" : "lazy"}
+                      onError={(e) => {
+                        const target = e.currentTarget;
+                        target.style.display = "none";
+                        const fallback = target.parentElement?.parentElement?.querySelector(".banner-fallback");
+                        if (fallback) (fallback as HTMLElement).style.display = "flex";
+                      }}
+                    />
                   </picture>
-                  {/* Fallback shown when image fails or is missing */}
-                  <div className="banner-img-wrap absolute inset-0">
-                    <div className="banner-fallback w-full h-full hidden flex-col items-center justify-center bg-gradient-to-br from-orange-100 to-amber-50 dark:from-orange-950/30 dark:to-amber-950/20 gap-2">
-                      <ImageOff className="h-8 w-8 text-orange-400/60" />
-                      <span className="text-xs text-orange-500/80 font-medium">{b.badge || b.title}</span>
-                    </div>
+                  {/* Fallback shown when image fails */}
+                  <div className="banner-fallback absolute inset-0 hidden flex-col items-center justify-center bg-gradient-to-br from-orange-100 to-amber-50 dark:from-orange-950/30 dark:to-amber-950/20 gap-2">
+                    <ImageOff className="h-8 w-8 text-orange-400/60" />
+                    <span className="text-xs text-orange-500/80 font-medium">{b.badge || b.title}</span>
                   </div>
                 </div>
 
