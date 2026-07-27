@@ -1,7 +1,7 @@
 import { useRef,  useState, FormEvent, useEffect } from 'react';
 import { useNavigate, useSearchParams, Link } from 'react-router';
 import { ShoppingBag, Store, Loader2 } from 'lucide-react';
-import { supabase } from '@/integrations/supabase/client';
+import { supabase, isSupabaseConfigured } from '@/integrations/supabase/client';
 import { useAuth, AppRole } from '@/lib/auth';
 import { Logo } from '@/components/Logo';
 import { Header } from '@/components/layout/Header';
@@ -34,6 +34,10 @@ export default function AuthPage() {
   const submit = async (e: FormEvent) => {
     e.preventDefault();
     setError(null);
+    if (!isSupabaseConfigured) {
+      setError('Supabase is not configured. Contact the site administrator.');
+      return;
+    }
     setBusy(true);
     try {
       if (mode === 'login') {
@@ -82,6 +86,10 @@ export default function AuthPage() {
 
   const google = async () => {
     setError(null);
+    if (!isSupabaseConfigured) {
+      setError('Supabase is not configured. Contact the site administrator.');
+      return;
+    }
     try {
       const { lovable } = await import('@/integrations/lovable/index');
       const r = await lovable.auth.signInWithOAuth('google', { redirect_uri: window.location.origin });

@@ -8,12 +8,6 @@ const SUPABASE_PUBLISHABLE_KEY = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY;
 export const isSupabaseConfigured = Boolean(SUPABASE_URL && SUPABASE_PUBLISHABLE_KEY);
 
 if (!isSupabaseConfigured) {
-  // Log loudly instead of throwing. Throwing here happens at module-import
-  // time, before React even mounts, which crashes the entire app into a
-  // blank white page with no way to show an error UI. Logging lets the app
-  // render normally; screens that need Supabase (auth, marketplace data)
-  // are responsible for checking `isSupabaseConfigured` and showing a
-  // friendly message instead of calling `supabase` directly.
   console.error(
     '[Supabase] Missing environment variables. Copy .env.example to .env and set ' +
     'VITE_SUPABASE_URL and VITE_SUPABASE_PUBLISHABLE_KEY (find them in your ' +
@@ -21,38 +15,33 @@ if (!isSupabaseConfigured) {
   );
 }
 
-// Fall back to harmless placeholder strings so createClient() itself never
-// throws. Any real request made with these will simply fail with a network/
-// auth error, which is much easier to debug than a silent blank page.
 const resolvedUrl = SUPABASE_URL || 'https://placeholder.supabase.co';
 const resolvedKey = SUPABASE_PUBLISHABLE_KEY || 'placeholder-key';
 
-function isNewSupabaseApiKey(value: string): boolean {
-  return value.startsWith('sb_publishable_') || value.startsWith('sb_secret_');
-}
-
+/**
+ * Custom fetch wrapper for Supabase that:
+ * 1. Adds the `apikey` header for new-style Supabase API keys (sb_publishable_ / sb_secret_)
+ * 2. Strips duplicate Authorization header when the key style has changed
+ */
 function createSupabaseFetch(supabaseKey: string): typeof fetch {
+  const isNewKey = supabaseKey.startsWith('sb_publishable_') || supabaseKey.startsWith('sb_secret_');
   return (input, init) => {
     const headers = new Headers(
       typeof Request !== 'undefined' && input instanceof Request ? input.headers : undefined,
     );
-
     if (init?.headers) {
       new Headers(init.headers).forEach((value, key) => headers.set(key, value));
     }
-
-    // New Supabase API keys are opaque strings, not bearer JWTs.
-    if (isNewSupabaseApiKey(supabaseKey) && headers.get('Authorization') === `Bearer ${supabaseKey}`) {
-      headers.delete('Authorization');
+    // New-style keys don't use Bearer token auth — just pass apikey
+    if (isNewKey) {
+      if (headers.get('Authorization')) {
+        headers.delete('Authorization');
+      }
+      headers.set('apikey', supabaseKey);
     }
-
-    headers.set('apikey', supabaseKey);
     return fetch(input, { ...init, headers });
   };
 }
-
-// Import the supabase client like this:
-// import { supabase } from "@/integrations/supabase/client";
 
 export const supabase = createClient<Database>(resolvedUrl, resolvedKey, {
   global: {
@@ -62,5 +51,6 @@ export const supabase = createClient<Database>(resolvedUrl, resolvedKey, {
     storage: localStorage,
     persistSession: true,
     autoRefreshToken: true,
+    flowType: 'pkce',
   }
 });

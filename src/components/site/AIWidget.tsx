@@ -7,11 +7,46 @@ import { gsap } from 'gsap';
 
 type Msg = { role: 'user' | 'assistant'; content: string };
 
+/** Local canned responses — works immediately without needing the edge function deployed */
+function localReply(input: string): string {
+  const lower = input.toLowerCase();
+  if (lower.includes('price') || lower.includes('cost') || lower.includes('bei')) {
+    return "Prices on SokoDigital vary by seller. You can find products starting from as low as TZS 5,000. Use the sort by price filter to find the best deals! 💰";
+  }
+  if (lower.includes('ship') || lower.includes('delivery') || lower.includes('usafirishaji')) {
+    return "We offer nationwide delivery across Tanzania Mainland & Zanzibar! Free delivery on orders over 50,000 TZS. Typical delivery takes 1-5 business days. 🚚";
+  }
+  if (lower.includes('return') || lower.includes('refund')) {
+    return "Most products on SokoDigital can be returned within 14 days of delivery. Check each product's return policy on its detail page for specific terms. 🔄";
+  }
+  if (lower.includes('sell') || lower.includes('vendor') || lower.includes('store')) {
+    return "Ready to start selling? Click 'Start Selling' in the footer or visit /sell. You'll go through our onboarding steps — account, business info, location, verification, payment, and branding! 🏪";
+  }
+  if (lower.includes('pay') || lower.includes('payment') || lower.includes('malipo')) {
+    return "We accept M-Pesa, Airtel Money, Tigo Pesa, HaloPesa, and bank transfers (CRDB, NMB, NBC). All payments are secured end-to-end. 🔒";
+  }
+  if (lower.includes('hello') || lower.includes('hi') || lower.includes('habari') || lower.includes('mambo')) {
+    return "Hello! 👋 Welcome to SokoDigital! I'm here to help you find products, track orders, or answer any questions. What can I help you with today?";
+  }
+  if (lower.includes('product') || lower.includes('find') || lower.includes('search') || lower.includes('tafuta')) {
+    return "You can find products by browsing categories, using the search bar, or checking out our Top Selling and New Arrivals sections on the home page. What are you looking for specifically? 🔍";
+  }
+  if (lower.includes('track') || lower.includes('order') || lower.includes('agizo')) {
+    return "To track your order, go to your Dashboard and click on 'My Orders'. You'll see the current status and delivery updates for all your purchases. 📦";
+  }
+  return "Great question! To help you best, could you tell me more about what you're looking for? I can assist with finding products, checking prices, understanding shipping and payments, or helping you start selling! 😊";
+}
+
 function fallbackReply(input: string, lang: 'en' | 'sw'): string {
   const sw = lang === 'sw';
-  return sw
-    ? 'Samahani, muunganisho umekwama kwa muda. Jaribu tena baada ya muda mfupi.'
-    : "Sorry, I couldn't reach the assistant just now. Please try again in a moment.";
+  if (sw) {
+    // Swahili canned responses
+    const lower = input.toLowerCase();
+    if (lower.includes('bei') || lower.includes('gharama')) return "Bei kwenye SokoDigital zinatofautiana kulingana na muuzaji. Unaweza kupata bidhaa kuanzia TZS 5,000! Tumia kichujio cha bei kupata ofa bora. 💰";
+    if (lower.includes('usafirishaji') || lower.includes('delivery')) return "Tunatoa usafirishaji kote Tanzania Bara na Zanzibar! Usafirishaji bila malipo kwa maagizo zaidi ya 50,000 TZS. Inachukua siku 1-5. 🚚";
+    return "Swali zuri! Unaweza kunitaja zaidi unachotaka? Ninaweza kusaidia kutafuta bidhaa, bei, usafirishaji, au kuanza kuuza! 😊";
+  }
+  return localReply(input);
 }
 
 export function AIWidget() {
@@ -70,13 +105,20 @@ export function AIWidget() {
     setInput('');
     setLoading(true);
     try {
+      // Try the edge function first
       const { data, error } = await supabase.functions.invoke('soko-ai', {
         body: { messages: next, lang },
       });
       if (error) throw error;
-      const reply = (data as { text?: string })?.text?.trim() || fallbackReply(v, lang);
-      setMsgs((m) => [...m, { role: 'assistant', content: reply }]);
+      const reply = (data as { text?: string })?.text?.trim();
+      if (reply) {
+        setMsgs((m) => [...m, { role: 'assistant', content: reply }]);
+      } else {
+        // Edge function returned empty — use local fallback (handles EN + SW)
+        setMsgs((m) => [...m, { role: 'assistant', content: fallbackReply(v, lang) }]);
+      }
     } catch {
+      // Edge function unavailable — use local fallback (handles EN + SW)
       setMsgs((m) => [...m, { role: 'assistant', content: fallbackReply(v, lang) }]);
     } finally {
       setLoading(false);
