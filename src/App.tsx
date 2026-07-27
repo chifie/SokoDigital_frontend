@@ -15,14 +15,27 @@ import CheckoutPage from '@/pages/CheckoutPage';
 import SellerOnboardingPage from '@/pages/SellerOnboardingPage';
 import AdminDashboardPage from '@/pages/AdminDashboardPage';
 import StorePage from '@/pages/StorePage';
+import CategoriesPage from '@/pages/CategoriesPage';
+import DealsPage from '@/pages/DealsPage';
+import ShopsPage from '@/pages/ShopsPage';
+import AboutPage from '@/pages/AboutPage';
+import ContactPage from '@/pages/ContactPage';
+import FAQPage from '@/pages/FAQPage';
+import ReturnsPage from '@/pages/ReturnsPage';
+import MessagesPage from '@/pages/MessagesPage';
+import OrderConfirmationPage from '@/pages/OrderConfirmationPage';
 import { AuthProvider } from '@/lib/auth';
 import { LanguageProvider } from '@/lib/i18n';
+import { WishlistProvider } from '@/lib/wishlist-context';
 import { Heart, ArrowRight } from "lucide-react";
 import { Link } from "react-router";
 import { AIWidget } from '@/components/site/AIWidget';
 import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
 import { MobileBottomNav } from '@/components/layout/MobileBottomNav';
+import { OptimizedImage } from '@/components/shared/OptimizedImage';
+import { useWishlist } from '@/lib/wishlist-context';
+import { products } from '@/lib/constants';
 
 const pageVariants = {
   initial: { opacity: 0, y: 12 },
@@ -48,70 +61,6 @@ function AnimatedPage({ children }: { children: React.ReactNode }) {
     >
       {children}
     </motion.div>
-  );
-}
-
-function CategoriesPage() {
-  return (
-    <div className="min-h-screen flex flex-col bg-background">
-      <Header />
-      <main className="flex-1 pb-16 lg:pb-0">
-        <div className="mx-auto max-w-7xl px-4 py-20 text-center">
-          <h1 className="text-3xl font-bold">Categories</h1>
-          <p className="text-muted-foreground mt-2">Browse all categories coming soon</p>
-        </div>
-      </main>
-      <Footer />
-      <MobileBottomNav />
-    </div>
-  );
-}
-
-function ShopsPage() {
-  return (
-    <div className="min-h-screen flex flex-col bg-background">
-      <Header />
-      <main className="flex-1 pb-16 lg:pb-0">
-        <div className="mx-auto max-w-7xl px-4 py-20 text-center">
-          <h1 className="text-3xl font-bold">Shops</h1>
-          <p className="text-muted-foreground mt-2">Discover stores coming soon</p>
-        </div>
-      </main>
-      <Footer />
-      <MobileBottomNav />
-    </div>
-  );
-}
-
-function DealsPage() {
-  return (
-    <div className="min-h-screen flex flex-col bg-background">
-      <Header />
-      <main className="flex-1 pb-16 lg:pb-0">
-        <div className="mx-auto max-w-7xl px-4 py-20 text-center">
-          <h1 className="text-3xl font-bold">Deals</h1>
-          <p className="text-muted-foreground mt-2">Flash sales coming soon</p>
-        </div>
-      </main>
-      <Footer />
-      <MobileBottomNav />
-    </div>
-  );
-}
-
-function AboutPage() {
-  return (
-    <div className="min-h-screen flex flex-col bg-background">
-      <Header />
-      <main className="flex-1 pb-16 lg:pb-0">
-        <div className="mx-auto max-w-3xl px-4 py-12">
-          <h1 className="text-3xl font-bold mb-4">About SokoDigital</h1>
-          <p className="text-muted-foreground">Tanzania's premier online marketplace connecting buyers and sellers across the nation.</p>
-        </div>
-      </main>
-      <Footer />
-      <MobileBottomNav />
-    </div>
   );
 }
 
@@ -166,44 +115,88 @@ function TermsPage() {
 }
 
 function WishlistPage() {
+  const { items, remove } = useWishlist();
+
+  const wishlistProducts = items
+    .map((wi) => products.find((p) => p.id === wi.productId))
+    .filter(Boolean);
+
   return (
     <div className="min-h-screen flex flex-col bg-background">
       <Header />
       <main className="flex-1 pb-16 lg:pb-0">
         <div className="mx-auto max-w-7xl px-4 py-12">
-          <h1 className="text-3xl font-bold mb-6">My Wishlist</h1>
-          <div className="text-center py-20">
-            <Heart className="h-16 w-16 text-muted-foreground/30 mx-auto mb-4" />
-            <h2 className="text-xl font-semibold mb-2">Your wishlist is empty</h2>
-            <p className="text-sm text-muted-foreground mb-6">
-              Save your favorite items here to shop later.
-            </p>
-            <Link
-              to="/marketplace"
-              className="inline-flex items-center gap-2 rounded-full bg-primary px-6 py-2.5 text-sm font-semibold text-primary-foreground hover:opacity-90 transition-opacity"
-            >
-              Browse Products
-              <ArrowRight className="h-4 w-4" />
-            </Link>
+          <div className="flex items-center justify-between mb-6">
+            <h1 className="text-3xl font-bold">My Wishlist</h1>
+            {wishlistProducts.length > 0 && (
+              <span className="text-sm text-muted-foreground">{wishlistProducts.length} items</span>
+            )}
           </div>
-        </div>
-      </main>
-      <Footer />
-      <MobileBottomNav />
-    </div>
-  );
-}
 
-function ContactPage() {
-  return (
-    <div className="min-h-screen flex flex-col bg-background">
-      <Header />
-      <main className="flex-1 pb-16 lg:pb-0">
-        <div className="mx-auto max-w-3xl px-4 py-12">
-          <h1 className="text-3xl font-bold mb-4">Contact Us</h1>
-          <p className="text-muted-foreground">Email: support@sokodigital.co.tz</p>
-          <p className="text-muted-foreground mt-2">Phone: +255 712 345 678</p>
-          <p className="text-muted-foreground mt-2">Location: Dar es Salaam, Tanzania</p>
+          {wishlistProducts.length > 0 ? (
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+              {wishlistProducts.map((product) => {
+                if (!product) return null;
+                return (
+                  <div key={product.id} className="group relative rounded-xl border border-border/50 bg-card overflow-hidden hover:shadow-lg transition-all">
+                    <Link to={`/product/${product.slug}`}>
+                      <div className="aspect-square overflow-hidden bg-muted">
+                        <OptimizedImage
+                          src={product.images[0]}
+                          alt={product.name}
+                          wrapperClassName="h-full w-full"
+                          className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-500"
+                          shimmer
+                        />
+                      </div>
+                    </Link>
+                    <div className="p-3">
+                      <Link to={`/product/${product.slug}`} className="text-xs font-medium hover:text-primary transition-colors line-clamp-2">
+                        {product.name}
+                      </Link>
+                      <div className="mt-1.5 flex items-center gap-1.5">
+                        <span className="text-sm font-bold">
+                          Tshs {(product.discountPrice || product.price).toLocaleString()}/=
+                        </span>
+                        {product.discountPrice && (
+                          <span className="text-[10px] text-muted-foreground line-through">
+                            Tshs {product.price.toLocaleString()}/=
+                          </span>
+                        )}
+                      </div>
+                      <div className="mt-1 flex items-center gap-1 text-[10px] text-muted-foreground">
+                        <span className="text-amber-500">★</span>
+                        <span>{product.rating}</span>
+                        <span>·</span>
+                        <span>{product.sold} sold</span>
+                      </div>
+                      <button
+                        onClick={() => remove(product.id)}
+                        className="mt-2 w-full py-1.5 rounded-lg border border-rose-200 text-[11px] font-medium text-rose-500 hover:bg-rose-50 dark:hover:bg-rose-950/20 transition-colors"
+                      >
+                        Remove
+                      </button>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          ) : (
+            <div className="text-center py-20">
+              <Heart className="h-16 w-16 text-muted-foreground/30 mx-auto mb-4" />
+              <h2 className="text-xl font-semibold mb-2">Your wishlist is empty</h2>
+              <p className="text-sm text-muted-foreground mb-6">
+                Save your favorite items here to shop later.
+              </p>
+              <Link
+                to="/marketplace"
+                className="inline-flex items-center gap-2 rounded-full bg-primary px-6 py-2.5 text-sm font-semibold text-primary-foreground hover:opacity-90 transition-opacity"
+              >
+                Browse Products
+                <ArrowRight className="h-4 w-4" />
+              </Link>
+            </div>
+          )}
         </div>
       </main>
       <Footer />
@@ -242,6 +235,11 @@ function AppRoutes() {
         <Route path="/terms" element={<AnimatedPage><TermsPage /></AnimatedPage>} />
         <Route path="/store/:id" element={<AnimatedPage><StorePage /></AnimatedPage>} />
         <Route path="/contact" element={<AnimatedPage><ContactPage /></AnimatedPage>} />
+        <Route path="/faq" element={<AnimatedPage><FAQPage /></AnimatedPage>} />
+        <Route path="/returns" element={<AnimatedPage><ReturnsPage /></AnimatedPage>} />
+        <Route path="/messages" element={<AnimatedPage><MessagesPage /></AnimatedPage>} />
+        <Route path="/order/:id" element={<AnimatedPage><OrderConfirmationPage /></AnimatedPage>} />
+        <Route path="/thank-you" element={<AnimatedPage><OrderConfirmationPage /></AnimatedPage>} />
         <Route path="/chat" element={<AnimatedPage><AIChatPage /></AnimatedPage>} />
         <Route path="/auth" element={<AnimatedPage><AuthPage /></AnimatedPage>} />
         <Route path="/login" element={<AnimatedPage><AuthPage /></AnimatedPage>} />
@@ -264,8 +262,10 @@ function App() {
     <BrowserRouter>
       <LanguageProvider>
         <AuthProvider>
-          <AppRoutes />
-          <AIWidget />
+          <WishlistProvider>
+            <AppRoutes />
+            <AIWidget />
+          </WishlistProvider>
         </AuthProvider>
       </LanguageProvider>
     </BrowserRouter>
