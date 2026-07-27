@@ -90,6 +90,15 @@
     from { opacity: 0; transform: scale(0.95); }
     to { opacity: 1; transform: scale(1); }
   }
+
+  @keyframes rise-fade {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .rise-fade-in {
+    animation: rise-fade 0.4s ease-out forwards;
+  }
 }
 
 /* Kichi Market-inspired orange color scheme */
