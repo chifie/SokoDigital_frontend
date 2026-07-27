@@ -242,10 +242,9 @@ export function ProductCard({ product, index = 0, compact = false }: ProductCard
             </div>
           ) : (
             <img
-              src={product.images[0]}
+              src={product.images?.[0] || "/placeholder.svg"}
               alt={product.name}
               loading="lazy"
-              crossOrigin="anonymous"
               className={cn(
                 "product-card-image w-full h-full object-cover transition-all duration-500",
                 imgLoaded ? "opacity-100 blur-0 scale-100" : "opacity-100 blur-md scale-105"
