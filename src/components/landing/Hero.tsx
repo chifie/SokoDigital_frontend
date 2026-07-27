@@ -65,17 +65,25 @@ export function Hero() {
     });
   }, []);
 
-  /* ─── Autoplay (internal timer, no visual bar) ─── */
+  /* ─── Autoplay (internal timer, no progress bar) ─── */
   const scheduleNext = useCallback(() => {
     if (autoplayRef.current) clearTimeout(autoplayRef.current);
     autoplayRef.current = setTimeout(() => {
       if (!isPausedRef.current) {
-        goToSlide((currentSlide + 1) % activeBanners.length);
+        setCurrentSlide((prev) => (prev + 1) % activeBanners.length);
       } else {
-        scheduleNext(); // keep waiting while paused
+        // When paused, keep checking every second instead of recursive scheduling
+        autoplayRef.current = setTimeout(() => {
+          if (!isPausedRef.current) {
+            setCurrentSlide((prev) => (prev + 1) % activeBanners.length);
+          } else {
+            // Still paused — check again in 1s
+            scheduleNext();
+          }
+        }, 1000);
       }
     }, 5000);
-  }, [currentSlide, activeBanners.length]);
+  }, [activeBanners.length]);
 
   /* ─── Kichi‑style horizontal slide ─── */
   const goToSlide = useCallback(
