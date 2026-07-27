@@ -242,7 +242,7 @@ export function ProductCard({ product, index = 0, compact = false }: ProductCard
             </div>
           ) : (
             <img
-              src={product.images?.[0] || "/placeholder.svg"}
+              src={product.images?.[0]}
               alt={product.name}
               loading="lazy"
               className={cn(
