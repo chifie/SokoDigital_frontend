@@ -132,7 +132,7 @@ export default function DealsPage() {
           )}
 
           {/* Category Tabs */}
-          <div className="flex gap-2 overflow-x-auto pb-2 mb-6" style={{ scrollbarWidth: "none" }}>
+          <div className="flex gap-2 overflow-x-auto pb-2 mb-6 scrollbar-hide">
             {dealCategories.map((tab) => (
               <button
                 key={tab}
