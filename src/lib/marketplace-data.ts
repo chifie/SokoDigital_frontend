@@ -1,8 +1,8 @@
 export const PRODUCT_IMAGES = {
-  electronics: "https://images.pexels.com/photos/3394650/pexels-photo-3394650.jpeg?auto=compress&cs=tinysrgb&w=800",
-  fashion: "https://images.pexels.com/photos/1152077/pexels-photo-1152077.jpeg?auto=compress&cs=tinysrgb&w=800",
-  agri: "https://images.pexels.com/photos/1435904/pexels-photo-1435904.jpeg?auto=compress&cs=tinysrgb&w=800",
-  furniture: "https://images.pexels.com/photos/1571460/pexels-photo-1571460.jpeg?auto=compress&cs=tinysrgb&w=800",
+  electronics: "https://images.pexels.com/photos/3394650/pexels-photo-3394650.jpeg?auto=compress&cs=tinysrgb&w=1600&q=100",
+  fashion: "https://images.pexels.com/photos/1152077/pexels-photo-1152077.jpeg?auto=compress&cs=tinysrgb&w=1600&q=100",
+  agri: "https://images.pexels.com/photos/1435904/pexels-photo-1435904.jpeg?auto=compress&cs=tinysrgb&w=1600&q=100",
+  furniture: "https://images.pexels.com/photos/1571460/pexels-photo-1571460.jpeg?auto=compress&cs=tinysrgb&w=1600&q=100",
 };
 
 export const CATEGORY_NAMES = [
@@ -23,7 +23,7 @@ export type Product = {
 
 export const PRODUCTS: Product[] = [
   {
-    img: "https://images.pexels.com/photos/3394650/pexels-photo-3394650.jpeg?auto=compress&cs=tinysrgb&w=800",
+    img: "https://images.pexels.com/photos/3394650/pexels-photo-3394650.jpeg?auto=compress&cs=tinysrgb&w=1600&q=100",
     title: "Wireless Noise-Cancelling Over-Ear Headphones",
     seller: "AudioPro Global",
     price: "$129.99",
@@ -33,7 +33,7 @@ export const PRODUCTS: Product[] = [
     category: "Electronics",
   },
   {
-    img: "https://images.pexels.com/photos/1152077/pexels-photo-1152077.jpeg?auto=compress&cs=tinysrgb&w=800",
+    img: "https://images.pexels.com/photos/1152077/pexels-photo-1152077.jpeg?auto=compress&cs=tinysrgb&w=1600&q=100",
     title: "Premium Cotton Casual Shirt — Unisex Fit",
     seller: "Urban Threads Co.",
     price: "$34.50",
@@ -43,7 +43,7 @@ export const PRODUCTS: Product[] = [
     category: "Fashion",
   },
   {
-    img: "https://images.pexels.com/photos/2113855/pexels-photo-2113855.jpeg?auto=compress&cs=tinysrgb&w=800",
+    img: "https://images.pexels.com/photos/2113855/pexels-photo-2113855.jpeg?auto=compress&cs=tinysrgb&w=1600&q=100",
     title: "Organic Face Serum Set — Vitamin C + Retinol",
     seller: "PureGlow Cosmetics",
     price: "$28.00",
@@ -53,7 +53,7 @@ export const PRODUCTS: Product[] = [
     category: "Beauty",
   },
   {
-    img: "https://images.pexels.com/photos/1571460/pexels-photo-1571460.jpeg?auto=compress&cs=tinysrgb&w=800",
+    img: "https://images.pexels.com/photos/1571460/pexels-photo-1571460.jpeg?auto=compress&cs=tinysrgb&w=1600&q=100",
     title: "Scandinavian Lounge Chair — Solid Oak Frame",
     seller: "NordicLiving",
     price: "$389.00",
@@ -63,7 +63,7 @@ export const PRODUCTS: Product[] = [
     category: "Furniture",
   },
   {
-    img: "https://images.pexels.com/photos/699122/pexels-photo-699122.jpeg?auto=compress&cs=tinysrgb&w=800",
+    img: "https://images.pexels.com/photos/699122/pexels-photo-699122.jpeg?auto=compress&cs=tinysrgb&w=1600&q=100",
     title: "Latest 5G Smartphone — 256GB, 108MP Camera",
     seller: "MobileWorld",
     price: "$549.00",
@@ -73,7 +73,7 @@ export const PRODUCTS: Product[] = [
     category: "Phones",
   },
   {
-    img: "https://images.pexels.com/photos/812264/pexels-photo-812264.jpeg?auto=compress&cs=tinysrgb&w=800",
+    img: "https://images.pexels.com/photos/812264/pexels-photo-812264.jpeg?auto=compress&cs=tinysrgb&w=1600&q=100",
     title: "Ultra-Slim 15\" Laptop — 16GB RAM, 512GB SSD",
     seller: "ComputeHub",
     price: "$899.00",
@@ -83,7 +83,7 @@ export const PRODUCTS: Product[] = [
     category: "Computers",
   },
   {
-    img: "https://images.pexels.com/photos/2255935/pexels-photo-2255935.jpeg?auto=compress&cs=tinysrgb&w=800",
+    img: "https://images.pexels.com/photos/2255935/pexels-photo-2255935.jpeg?auto=compress&cs=tinysrgb&w=1600&q=100",
     title: "Premium Arabica Coffee Beans — 1kg Whole Bean",
     seller: "Mountain Roasters",
     price: "$18.99",
@@ -93,7 +93,7 @@ export const PRODUCTS: Product[] = [
     category: "Agriculture",
   },
   {
-    img: "https://images.pexels.com/photos/2294361/pexels-photo-2294361.jpeg?auto=compress&cs=tinysrgb&w=800",
+    img: "https://images.pexels.com/photos/2294361/pexels-photo-2294361.jpeg?auto=compress&cs=tinysrgb&w=1600&q=100",
     title: "Pro Running Shoes — Lightweight Mesh, Unisex",
     seller: "PeakSports",
     price: "$79.00",

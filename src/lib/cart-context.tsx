@@ -30,9 +30,9 @@ function loadCartFromStorage(): CartItem[] {
 }
 
 const demoItems: CartItem[] = [
-  { productId: "p1", name: "iPhone 15 Pro Max 256GB", image: "https://images.unsplash.com/photo-1696446701796-da61225697cc?w=200&q=80", price: 3490000, quantity: 1, sellerId: "s1", sellerName: "TechHub Tanzania", maxQuantity: 50 },
-  { productId: "p4", name: "Wireless Noise-Cancelling Headphones", image: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=200&q=80", price: 349000, quantity: 2, sellerId: "s3", sellerName: "Soko Gadgets", maxQuantity: 200 },
-  { productId: "p9", name: "Organic Skincare Bundle", image: "https://images.unsplash.com/photo-1556228578-0d85b1a4d571?w=200&q=80", price: 89000, quantity: 1, sellerId: "s6", sellerName: "Beauty & Glow TZ", maxQuantity: 200 },
+  { productId: "p1", name: "iPhone 15 Pro Max 256GB", image: "https://images.unsplash.com/photo-1696446701796-da61225697cc?w=400&q=100&fm=webp&fit=crop", price: 3490000, quantity: 1, sellerId: "s1", sellerName: "TechHub Tanzania", maxQuantity: 50 },
+  { productId: "p4", name: "Wireless Noise-Cancelling Headphones", image: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400&q=100&fm=webp&fit=crop", price: 349000, quantity: 2, sellerId: "s3", sellerName: "Soko Gadgets", maxQuantity: 200 },
+  { productId: "p9", name: "Organic Skincare Bundle", image: "https://images.unsplash.com/photo-1556228578-0d85b1a4d571?w=400&q=100&fm=webp&fit=crop", price: 89000, quantity: 1, sellerId: "s6", sellerName: "Beauty & Glow TZ", maxQuantity: 200 },
 ];
 
 export function CartProvider({ children }: { children: ReactNode }) {

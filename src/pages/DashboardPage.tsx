@@ -26,9 +26,9 @@ const orders = [
 ];
 
 const wishlistItems = [
-  { name: "MacBook Pro 14\" M3 Pro", price: 4490000, image: "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=200&q=80" },
-  { name: "Samsung 65\" 4K Smart TV", price: 2490000, image: "https://images.unsplash.com/photo-1593359677879-a4bb92f829d1?w=200&q=80" },
-  { name: "Premium Leather Handbag", price: 350000, image: "https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=200&q=80" },
+  { name: "MacBook Pro 14\" M3 Pro", price: 4490000, image: "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=400&q=100&fm=webp&fit=crop" },
+  { name: "Samsung 65\" 4K Smart TV", price: 2490000, image: "https://images.unsplash.com/photo-1593359677879-a4bb92f829d1?w=400&q=100&fm=webp&fit=crop" },
+  { name: "Premium Leather Handbag", price: 350000, image: "https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=400&q=100&fm=webp&fit=crop" },
 ];
 
 const addresses = [
