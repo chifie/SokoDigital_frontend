@@ -116,8 +116,8 @@ src/
 
 ```bash
 # Clone the repository
-git clone https://github.com/chifie/sokomarket-hub.git
-cd sokomarket-hub
+git clone https://github.com/chifie/SokoDigital_frontend.git
+cd SokoDigital_frontend
 
 # Install dependencies
 npm install
