@@ -20,6 +20,7 @@ import { useTheme } from "@/hooks/use-theme";
 import { useCart } from "@/lib/cart-context";
 import { useAuth } from "@/lib/auth";
 import { useWishlist } from "@/lib/wishlist-context";
+import { LanguageSelector } from "@/components/shared/LanguageSelector";
 
 export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -190,6 +191,11 @@ export function Header() {
 
         {/* Right Actions */}
         <div className="flex items-center gap-1 sm:gap-2">
+          {/* Language Selector */}
+          <div className="hidden sm:block">
+            <LanguageSelector />
+          </div>
+
           {/* Mobile Search */}
           <button className="md:hidden text-white p-1.5" onClick={() => setShowSearch(!showSearch)}>
             <Search className="h-5 w-5" />
