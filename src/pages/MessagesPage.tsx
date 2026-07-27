@@ -232,12 +232,8 @@ export default function MessagesPage() {
             )}
           </div>
 
-          {/* Mobile - show only selected conversation */}
-          {selectedConv && (
-            <div className="sm:hidden fixed inset-0 z-50 bg-background">
-              {/* Same chat layout but full screen for mobile */}
-            </div>
-          )}
+          {/* On mobile, the conversation list takes full width and the chat view is hidden */}
+          {/* A real app would add a "back to list" button in the chat header on mobile */}
         </div>
       </main>
     </motion.div>
