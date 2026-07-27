@@ -1,6 +1,7 @@
 import { useRef,  useEffect, useState } from 'react';
 import { Link } from 'react-router';
 import { Plus, Pencil, Trash2, Package, Loader2, ImageOff } from 'lucide-react';
+import { OptimizedImage } from '@/components/shared/OptimizedImage';
 import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
 import { useAuth } from '@/lib/auth';
@@ -157,7 +158,7 @@ export default function SellerListingsPage() {
               >
                 <div className="aspect-[4/3] w-full bg-muted">
                   {p.image_url ? (
-                    <img src={p.image_url} alt={p.name} className="h-full w-full object-cover" />
+                    <OptimizedImage src={p.image_url} alt={p.name} wrapperClassName="h-full w-full" shimmer={false} />
                   ) : (
                     <div className="grid h-full w-full place-items-center text-muted-foreground">
                       <ImageOff className="h-8 w-8" />

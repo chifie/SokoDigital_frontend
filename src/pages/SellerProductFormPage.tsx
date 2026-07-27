@@ -1,6 +1,7 @@
 import { useRef,  useEffect, useState, FormEvent } from 'react';
 import { useNavigate, useParams, Link } from 'react-router';
 import { Loader2, Upload, X, Plus, ArrowLeft } from 'lucide-react';
+import { OptimizedImage } from '@/components/shared/OptimizedImage';
 import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
 import { useAuth } from '@/lib/auth';
@@ -233,7 +234,7 @@ export default function SellerProductFormPage() {
             <div className="flex flex-wrap gap-3">
               {images.map((url) => (
                 <div key={url} className="group relative h-24 w-24 overflow-hidden rounded-lg border border-border">
-                  <img src={url} alt="Product" className="h-full w-full object-cover" />
+                  <OptimizedImage src={url} alt="Product" wrapperClassName="h-full w-full" shimmer={false} />
                   <button
                     type="button"
                     onClick={() => removeImage(url)}
