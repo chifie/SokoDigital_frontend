@@ -15,6 +15,7 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { BadgeCheck, Eye, Users, Store, Package, ShoppingCart } from "lucide-react";
 import { OptimizedImage } from "@/components/shared/OptimizedImage";
+import { LazySection } from "@/components/shared/LazySection";
 import { useGsapScroll } from "@/hooks/use-gsap-scroll";
 import { useTheme } from "@/hooks/use-theme";
 
@@ -339,7 +340,8 @@ export default function Landing() {
           </div>
         </section>
 
-        {/* ─── Stores ─── */}
+        {/* ─── Stores (lazy) ─── */}
+        <LazySection>
         <section className="landing-stores-section px-4 sm:px-8 lg:px-12 xl:px-16 mt-8">
           <div className="bg-card rounded-lg p-6">
             <h2 className="landing-section-title text-sm font-bold text-foreground mb-6">Popular Stores</h2>
@@ -371,8 +373,10 @@ export default function Landing() {
             </Link>
           </div>
         </section>
+        </LazySection>
 
-        {/* ─── Featured Products ─── */}
+        {/* ─── Featured Products (lazy) ─── */}
+        <LazySection>
         <section className="landing-featured-section px-4 sm:px-8 lg:px-12 xl:px-16 mt-8">
           <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-amber-50/80 via-background to-background dark:from-amber-950/10 border border-amber-200/50 dark:border-amber-800/30 p-5 sm:p-6">
             <div className="flex items-center justify-between mb-4 relative z-10">
@@ -396,8 +400,10 @@ export default function Landing() {
             </div>
           </div>
         </section>
+        </LazySection>
 
-        {/* ─── All Products (Infinite Scroll) ─── */}
+        {/* ─── All Products (Infinite Scroll, lazy) ─── */}
+        <LazySection>
         <section className="landing-products-section px-4 sm:px-8 lg:px-12 xl:px-16 mt-8">
           <div className="flex items-center justify-between mb-4">
             <h2 className="landing-section-title text-sm font-bold text-foreground">All Products</h2>
@@ -440,8 +446,10 @@ export default function Landing() {
             </Button>
           </div>
         </section>
+        </LazySection>
 
-        {/* ─── Download App (Alibaba-inspired) ─── */}
+        {/* ─── Download App (Alibaba-inspired, lazy) ─── */}
+        <LazySection>
         <section className="landing-download-app px-4 sm:px-8 lg:px-12 xl:px-16 mt-8 mb-8">
           <div className="relative overflow-hidden rounded-2xl bg-card border border-border/50 p-8 sm:p-12 shadow-sm text-center">
             {/* Decorative background elements */}
@@ -501,6 +509,8 @@ export default function Landing() {
             </div>
           </div>
         </section>
+        </section>
+        </LazySection>
       </main>
 
       <Footer />

@@ -63,20 +63,7 @@ export function OptimizedImage({
 }: OptimizedImageProps) {
   const [imgLoaded, setImgLoaded] = useState(false);
   const [imgError, setImgError] = useState(false);
-  const loadTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const imgRef = useRef<HTMLImageElement>(null);
-
-  // Timeout fallback: if image doesn't load in 5s, show error
-  useEffect(() => {
-    if (!imgLoaded && !imgError && src) {
-      loadTimeoutRef.current = setTimeout(() => {
-        if (!imgLoaded) setImgError(true);
-      }, 5000);
-    }
-    return () => {
-      if (loadTimeoutRef.current) clearTimeout(loadTimeoutRef.current);
-    };
-  }, [imgLoaded, imgError, src]);
 
   // Reset state when src changes
   useEffect(() => {

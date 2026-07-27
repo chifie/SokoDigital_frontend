@@ -96,15 +96,13 @@ export function useGsapScroll(
 
         const elemCount = elements instanceof NodeList ? elements.length : 1;
 
-        // Add will-change hint to reduce repaint cost during animation
+        // Promote to GPU compositing layer via .gpu class before animation
         if (elements instanceof NodeList) {
           elements.forEach((el) => {
-            if (el instanceof HTMLElement) {
-              el.style.willChange = 'transform, opacity';
-            }
+            if (el instanceof HTMLElement) el.classList.add('gpu');
           });
         } else if (elements instanceof HTMLElement) {
-          elements.style.willChange = 'transform, opacity';
+          elements.classList.add('gpu');
         }
 
         gsap.fromTo(

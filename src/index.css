@@ -302,3 +302,13 @@ html {
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
+
+/* GPU-accelerated compositing layer — promotes element to its own layer
+   for transform/opacity animations without triggering layout/paint.
+   Applied by the useGsapScroll hook before animation starts. */
+.gpu {
+  transform: translateZ(0);
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
