@@ -12,6 +12,7 @@ import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { MobileBottomNav } from "@/components/layout/MobileBottomNav";
 import { AIAssistant } from "@/components/ai/AIAssistant";
+import { OptimizedImage } from "@/components/shared/OptimizedImage";
 import { useCart } from "@/lib/cart-context";
 import { paymentMethods } from "@/lib/constants";
 import { cn, formatTZS } from "@/lib/utils";
@@ -80,7 +81,7 @@ export default function CartPage() {
                     className="flex gap-4 p-4 rounded-2xl border border-border/50 bg-card hover:shadow-md transition-all"
                   >
                     <div className="h-24 w-24 rounded-xl overflow-hidden bg-muted shrink-0">
-                      <img src={item.image} alt={item.name} className="h-full w-full object-cover" />
+                      <OptimizedImage src={item.image} alt={item.name} wrapperClassName="h-full w-full" shimmer={false} />
                     </div>
                     <div className="flex-1 min-w-0">
                       <div className="flex items-start justify-between gap-2">
