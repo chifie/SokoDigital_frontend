@@ -2,21 +2,6 @@ import type {
   Product, Seller, Category, FlashSale, Review, Notification,
   Testimonial, Stat, Banner, AISuggestion
 } from "@/types";
-import banner1Img from "@/assets/banner1.png";
-import banner2Img from "@/assets/banner2.png";
-import banner3Img from "@/assets/banner3.png";
-import banner4Img from "@/assets/banner4.png";
-import banner5Img from "@/assets/banner5.png";
-import banner1Webp from "@/assets/banner1.webp";
-import banner2Webp from "@/assets/banner2.webp";
-import banner3Webp from "@/assets/banner3.webp";
-import banner4Webp from "@/assets/banner4.webp";
-import banner5Webp from "@/assets/banner5.webp";
-import banner1Avif from "@/assets/banner1.avif";
-import banner2Avif from "@/assets/banner2.avif";
-import banner3Avif from "@/assets/banner3.avif";
-import banner4Avif from "@/assets/banner4.avif";
-import banner5Avif from "@/assets/banner5.avif";
 
 // ===== Marketplace Stats =====
 export const stats: Stat[] = [
@@ -490,10 +475,8 @@ export const banners: Banner[] = [
     description: "From electronics and fashion to groceries and beauty — SokoDigital has it all, delivered to your door.",
     cta: "Shop Now",
     link: "/marketplace",
-    desktopImage: banner1Img,
-    mobileImage: banner1Img,
-    webpImage: banner1Webp,
-    avifImage: banner1Avif,
+    desktopImage: "https://images.unsplash.com/photo-1483985988355-763728e1935b?w=1920&q=100&fm=webp&fit=crop",
+    mobileImage: "https://images.unsplash.com/photo-1483985988355-763728e1935b?w=800&q=100&fm=webp&fit=crop",
     badge: "Premium Marketplace",
     type: "hero",
     priority: 1,
@@ -511,10 +494,8 @@ export const banners: Banner[] = [
     description: "Grab amazing deals on smartphones, laptops, fashion, accessories, and more before they're gone.",
     cta: "Grab Deals",
     link: "/marketplace?sort=discount",
-    desktopImage: banner2Img,
-    mobileImage: banner2Img,
-    webpImage: banner2Webp,
-    avifImage: banner2Avif,
+    desktopImage: "https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?w=1920&q=100&fm=webp&fit=crop",
+    mobileImage: "https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?w=800&q=100&fm=webp&fit=crop",
     badge: "Flash Sale",
     discount: 70,
     type: "hero",
@@ -533,10 +514,8 @@ export const banners: Banner[] = [
     description: "From luxury skincare to everyday essentials — elevate your beauty routine with SokoDigital.",
     cta: "Shop Cosmetics",
     link: "/marketplace?category=beauty",
-    desktopImage: banner3Img,
-    mobileImage: banner3Img,
-    webpImage: banner3Webp,
-    avifImage: banner3Avif,
+    desktopImage: "https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?w=1920&q=100&fm=webp&fit=crop",
+    mobileImage: "https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?w=800&q=100&fm=webp&fit=crop",
     badge: "Cosmetics",
     type: "hero",
     priority: 3,
@@ -554,10 +533,8 @@ export const banners: Banner[] = [
     description: "Free delivery on orders over 50,000 TZS. Real-time tracking. 14-day returns. Shop with peace of mind.",
     cta: "Start Shopping",
     link: "/marketplace",
-    desktopImage: banner4Img,
-    mobileImage: banner4Img,
-    webpImage: banner4Webp,
-    avifImage: banner4Avif,
+    desktopImage: "https://images.unsplash.com/photo-1558017487-06bf9f826137?w=1920&q=100&fm=webp&fit=crop",
+    mobileImage: "https://images.unsplash.com/photo-1558017487-06bf9f826137?w=800&q=100&fm=webp&fit=crop",
     badge: "Free Delivery",
     type: "hero",
     priority: 4,
@@ -575,13 +552,11 @@ export const banners: Banner[] = [
     description: "From gadgets to groceries — find everything you need at prices you'll love.",
     cta: "Explore Now",
     link: "/marketplace",
-    desktopImage: banner5Img,
-    mobileImage: banner5Img,
-    webpImage: banner5Webp,
-    avifImage: banner5Avif,
+    desktopImage: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=1920&q=100&fm=webp&fit=crop",
+    mobileImage: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=800&q=100&fm=webp&fit=crop",
     badge: "New Arrivals",
     type: "hero",
-    priority: 5,
+    priority: 5
     isActive: true,
     startDate: new Date().toISOString(),
     endDate: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(),
