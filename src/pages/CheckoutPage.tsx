@@ -1,6 +1,8 @@
 import { useRef, useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router";
+import { Loader2 } from "lucide-react";
+import { useRequireAuth } from "@/hooks/use-require-auth";
 import {
   ArrowLeft, MapPin, Truck, CreditCard, Smartphone, Landmark,
   Shield, Check, Lock
@@ -28,6 +30,10 @@ const deliveryOptions = [
 
 export default function CheckoutPage() {
   const mainRef = useRef<HTMLDivElement>(null);
+  const { user, loading, isAuthenticated } = useRequireAuth({
+    preservePath: true,
+    redirectTo: "/auth",
+  });
   const [step] = useState<"delivery" | "payment" | "confirm">("delivery");
   const [selectedDelivery, setSelectedDelivery] = useState("standard");
   const [selectedPayment, setSelectedPayment] = useState("mpesa");
@@ -46,6 +52,25 @@ export default function CheckoutPage() {
       setIsComplete(true);
     }, 2000);
   };
+
+  // Auth guard: show loader while resolving, redirect if not authenticated
+  if (loading) {
+    return (
+      <div className="min-h-screen flex flex-col bg-background">
+        <Header />
+        <main className="flex-1 flex items-center justify-center">
+          <div className="flex flex-col items-center gap-3">
+            <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
+            <p className="text-sm text-muted-foreground">Verifying your session...</p>
+          </div>
+        </main>
+      </div>
+    );
+  }
+
+  if (!isAuthenticated) {
+    return null; // redirect already triggered by useRequireAuth
+  }
 
   if (isComplete) {
     return (

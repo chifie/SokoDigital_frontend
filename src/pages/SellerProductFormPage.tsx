@@ -4,6 +4,7 @@ import { Loader2, Upload, X, Plus, ArrowLeft } from 'lucide-react';
 import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
 import { useAuth } from '@/lib/auth';
+import { useRequireAuth } from '@/hooks/use-require-auth';
 import { supabase } from '@/integrations/supabase/client';
 import { CATEGORY_NAMES } from '@/lib/marketplace-data';
 import { gsap } from "gsap";
@@ -19,6 +20,10 @@ export default function SellerProductFormPage() {
   const { id } = useParams<{ id: string }>();
   const isEdit = Boolean(id);
   const { user, roles, loading: authLoading } = useAuth();
+  const { loading: authGuardLoading, isAuthenticated } = useRequireAuth({
+    preservePath: true,
+    redirectTo: "/auth",
+  });
   const navigate = useNavigate();
 
   const [name, setName] = useState('');
@@ -36,10 +41,6 @@ export default function SellerProductFormPage() {
   const [error, setError] = useState<string | null>(null);
 
   const isSeller = roles.includes('seller') || roles.includes('admin');
-
-  useEffect(() => {
-    if (!authLoading && !user) navigate('/auth', { replace: true });
-  }, [authLoading, user, navigate]);
 
   useEffect(() => {
     if (!isEdit || !user || !id) return;
@@ -178,7 +179,7 @@ export default function SellerProductFormPage() {
     }
   };
 
-  if (authLoading || loadingExisting) {
+  if (authLoading || authGuardLoading || loadingExisting) {
     return (
       <div className="grid min-h-screen place-items-center bg-background text-muted-foreground">
         <Loader2 className="h-6 w-6 animate-spin" />

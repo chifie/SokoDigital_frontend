@@ -1,9 +1,10 @@
 import { useRef,  useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router';
+import { Link } from 'react-router';
 import { Plus, Pencil, Trash2, Package, Loader2, ImageOff } from 'lucide-react';
 import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
 import { useAuth } from '@/lib/auth';
+import { useRequireAuth } from '@/hooks/use-require-auth';
 import { supabase } from '@/integrations/supabase/client';
 import type { Tables } from '@/integrations/supabase/types';
 import { gsap } from "gsap";
@@ -15,17 +16,16 @@ type Product = Tables<'products'>;
 export default function SellerListingsPage() {
   const mainRef = useRef<HTMLDivElement>(null);
   const { user, roles, loading: authLoading } = useAuth();
-  const navigate = useNavigate();
+  const { loading: authGuardLoading, isAuthenticated } = useRequireAuth({
+    preservePath: true,
+    redirectTo: "/auth",
+  });
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   const [deletingId, setDeletingId] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   const isSeller = roles.includes('seller') || roles.includes('admin');
-
-  useEffect(() => {
-    if (!authLoading && !user) navigate('/auth', { replace: true });
-  }, [authLoading, user, navigate]);
 
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect
@@ -84,7 +84,7 @@ export default function SellerListingsPage() {
     setDeletingId(null);
   };
 
-  if (authLoading || (loading && isSeller)) {
+  if (authLoading || authGuardLoading || (loading && isSeller)) {
     return (
       <div className="grid min-h-screen place-items-center bg-background text-muted-foreground">
         <Loader2 className="h-6 w-6 animate-spin" />
