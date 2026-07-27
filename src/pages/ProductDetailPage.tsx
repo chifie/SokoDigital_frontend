@@ -194,7 +194,7 @@ export default function ProductDetailPage() {
                 <OptimizedImage
                   src={product.images[selectedImage]}
                   alt={product.name}
-                  className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  className="h-full w-full object-cover group-hover:scale-105"
                   wrapperClassName="absolute inset-0"
                   shimmer={true}
                   loading="eager"
