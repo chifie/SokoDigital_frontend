@@ -6,7 +6,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { ChevronDown, Globe } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { useLang } from "@/lib/i18n";
 
 export function LanguageSelector() {
@@ -31,29 +31,26 @@ export function LanguageSelector() {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-40">
-        <AnimatePresence>
-          <motion.div
-            initial={{ opacity: 0, y: -8 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -8 }}
-            transition={{ duration: 0.15 }}
-          >
-            {languages.map((l) => (
-              <DropdownMenuItem
-                key={l.code}
-                onClick={() => setLang(l.code)}
-                className={`gap-3 cursor-pointer ${
-                  lang === l.code ? "bg-primary/5 font-medium" : ""
-                }`}
-              >
-                <span className="text-xs">{l.nativeName}</span>
-                <span className="text-[10px] text-muted-foreground ml-auto">
-                  {l.name}
-                </span>
-              </DropdownMenuItem>
-            ))}
-          </motion.div>
-        </AnimatePresence>
+        <motion.div
+          initial={{ opacity: 0, y: -8 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.15 }}
+        >
+          {languages.map((l) => (
+            <DropdownMenuItem
+              key={l.code}
+              onClick={() => setLang(l.code)}
+              className={`gap-3 cursor-pointer ${
+                lang === l.code ? "bg-primary/5 font-medium" : ""
+              }`}
+            >
+              <span className="text-xs">{l.nativeName}</span>
+              <span className="text-[10px] text-muted-foreground ml-auto">
+                {l.name}
+              </span>
+            </DropdownMenuItem>
+          ))}
+        </motion.div>
       </DropdownMenuContent>
     </DropdownMenu>
   );
