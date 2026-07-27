@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback, useRef } from "react";
-import { ChevronLeft, ChevronRight, ArrowRight, Truck, Shield } from "lucide-react";
+import { ChevronLeft, ChevronRight, ArrowRight, Truck, Shield, ImageOff } from "lucide-react";
 import { Link, useNavigate } from "react-router";
 import { cn } from "@/lib/utils";
 import { banners } from "@/lib/constants";
@@ -187,12 +187,29 @@ export function Hero() {
                   {b.avifImage && <source type="image/avif" srcSet={b.avifImage} />}
                   {b.webpImage && <source type="image/webp" srcSet={b.webpImage} />}
                   <source media="(max-width: 639px)" srcSet={b.mobileImage ?? b.desktopImage} />
-                  <img
-                    src={b.desktopImage}
-                    alt={b.title}
-                    className="w-full h-full object-cover"
-                    loading={idx === 0 ? "eager" : "lazy"}
-                  />
+                  {b.desktopImage ? (
+                    <img
+                      src={b.desktopImage}
+                      alt={b.title}
+                      className="w-full h-full object-cover"
+                      loading={idx === 0 ? "eager" : "lazy"}
+                      onError={(e) => {
+                        const target = e.currentTarget;
+                        target.style.display = "none";
+                        const fallback = target.parentElement?.querySelector(".banner-fallback");
+                        if (fallback) (fallback as HTMLElement).style.display = "flex";
+                      }}
+                    />
+                  ) : (
+                    <div className="w-full h-full bg-muted flex items-center justify-center">
+                      <ImageOff className="h-8 w-8 text-muted-foreground" />
+                    </div>
+                  )}
+                  {/* Fallback shown when image fails to load */}
+                  <div className="banner-fallback absolute inset-0 hidden flex-col items-center justify-center bg-gradient-to-br from-orange-100 to-amber-50 dark:from-orange-950/30 dark:to-amber-950/20 gap-2">
+                    <ImageOff className="h-8 w-8 text-orange-400/60" />
+                    <span className="text-xs text-orange-500/80 font-medium">{b.badge || b.title}</span>
+                  </div>
                 </picture>
 
                 {/* Dark overlay */}
