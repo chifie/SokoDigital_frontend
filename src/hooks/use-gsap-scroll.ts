@@ -4,6 +4,9 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 gsap.registerPlugin(ScrollTrigger);
 
+// Enable smoother scroll performance with normalized scroll handling
+ScrollTrigger.normalizeScroll();
+
 export interface ScrollAnimDef {
   /** CSS selector for elements to animate */
   selector: string;

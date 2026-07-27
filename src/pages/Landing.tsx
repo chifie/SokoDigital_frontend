@@ -149,28 +149,24 @@ export default function Landing() {
   }, []);
 
   useGsapScroll(mainRef, [
-    // Category pills with scale-in
-    { selector: '.landing-cat-pill', stagger: 0.03, from: { y: 15, scale: 0.9 }, to: { scale: 1 }, duration: 0.4, ease: 'power3.out', start: 'top 90%', trigger: '.landing-cat-pills' },
-    // Grid cards (Top Selling, New Arrivals, Today's Deal)
-    { selector: '.landing-grid-card', stagger: 0.08, from: { y: 30 }, duration: 0.5, ease: 'power3.out' },
-    // Today's Deal individual cards
-    { selector: '.todays-deal-card', stagger: 0.05, from: { y: 20 }, duration: 0.4, ease: 'power3.out' },
-    // Stats section
-    { selector: '.landing-stats', stagger: 0.08, duration: 0.5, ease: 'power3.out' },
-    // Section titles fade-in
-    { selector: '.landing-section-title', single: true, stagger: 0, duration: 0.5, ease: 'power3.out', from: { y: 10 } },
-    // View more links
-    { selector: '.landing-view-more', stagger: 0.08, duration: 0.4, ease: 'power3.out', from: { y: 8 } },
+    // Category pills with scale-in — tighter stagger
+    { selector: '.landing-cat-pill', stagger: 0.03, from: { y: 12, scale: 0.9 }, to: { scale: 1 }, duration: 0.35, ease: 'power3.out', start: 'top 92%', trigger: '.landing-cat-pills' },
+    // Grid cards (Top Selling, New Arrivals, Today's Deal) — merged into one trigger
+    { selector: '.landing-grid-card', stagger: 0.08, from: { y: 25 }, duration: 0.4, ease: 'power3.out', start: 'top 92%' },
+    // Today's Deal individual cards — shorter duration
+    { selector: '.todays-deal-card', stagger: 0.04, from: { y: 15 }, duration: 0.35, ease: 'power3.out', start: 'top 92%' },
+    // Stats section + section titles + view more links — merged
+    { selector: '.landing-stats, .landing-section-title, .landing-view-more', stagger: 0.06, duration: 0.4, ease: 'power3.out', from: { y: 10 }, start: 'top 92%' },
     // Store avatars
-    { selector: '.landing-store-link', stagger: 0.03, from: { y: 15, scale: 0.95 }, to: { scale: 1 }, duration: 0.35, ease: 'power3.out' },
+    { selector: '.landing-store-link', stagger: 0.03, from: { y: 12, scale: 0.95 }, to: { scale: 1 }, duration: 0.3, ease: 'power3.out', start: 'top 92%' },
     // All products section
-    { selector: '.landing-products-section', single: true, duration: 0.6, ease: 'power3.out', from: { y: 20 } },
+    { selector: '.landing-products-section', single: true, duration: 0.5, ease: 'power3.out', from: { y: 18 }, start: 'top 92%' },
     // Download app section
-    { selector: '.landing-download-app', single: true, duration: 0.6, ease: 'power3.out', from: { y: 25 } },
-    // Store badges in download section
-    { selector: '.landing-store-badge', stagger: 0.12, duration: 0.5, ease: 'power3.out', from: { x: -15 } },
+    { selector: '.landing-download-app', single: true, duration: 0.5, ease: 'power3.out', from: { y: 18 }, start: 'top 92%' },
+    // Store badges — horizontal slide-in from left
+    { selector: '.landing-store-badge', stagger: 0.1, duration: 0.4, ease: 'power3.out', from: { x: -20 }, start: 'top 92%' },
     // Download section text
-    { selector: '.landing-feature-text', stagger: 0.08, duration: 0.5, ease: 'power3.out', from: { y: 15 } },
+    { selector: '.landing-feature-text', stagger: 0.06, duration: 0.4, ease: 'power3.out', from: { y: 12 }, start: 'top 92%' },
   ]);
 
   return (
@@ -483,14 +479,11 @@ export default function Landing() {
                   className="landing-store-badge inline-block hover:opacity-80 transition-opacity"
                   aria-label="Download from App Store"
                 >
-                  <OptimizedImage
+                  <img
                     src="https://s.alicdn.com/@img/imgextra/i4/O1CN01i9Aj641atkjJJ9I6y_!!6000000003388-2-tps-396-132.png"
                     alt="Download from App Store"
-                    width={396}
-                    height={132}
-                    className="h-10 sm:h-12 w-auto"
-                    shimmer={false}
                     loading="lazy"
+                    className="h-10 sm:h-12 w-auto"
                   />
                 </a>
                 {/* Google Play */}
@@ -501,14 +494,11 @@ export default function Landing() {
                   className="landing-store-badge inline-block hover:opacity-80 transition-opacity"
                   aria-label="Download from Google Play"
                 >
-                  <OptimizedImage
+                  <img
                     src="https://s.alicdn.com/@img/imgextra/i4/O1CN018KnDNq1JleFgkjLRq_!!6000000001069-2-tps-447-132.png"
                     alt="Download from Google Play"
-                    width={447}
-                    height={132}
-                    className="h-10 sm:h-12 w-auto"
-                    shimmer={false}
                     loading="lazy"
+                    className="h-10 sm:h-12 w-auto"
                   />
                 </a>
               </div>

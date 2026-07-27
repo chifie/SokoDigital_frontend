@@ -380,13 +380,7 @@ export function Hero() {
           </div>
         )}
 
-        {/* ─── Simple pause chip (clean, minimal) ─── */}
-        {isPaused && (
-          <div className="absolute top-3 sm:top-5 left-3 sm:left-5 z-30 flex items-center gap-1.5 bg-black/40 backdrop-blur-sm text-white/80 text-[10px] px-2.5 py-1 rounded-full shadow-sm border border-white/10">
-            <span className="h-2 w-2 rounded-full bg-orange-400 animate-pulse" />
-            Paused
-          </div>
-        )}
+
       </div>
     </section>
   );
