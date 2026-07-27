@@ -71,6 +71,39 @@ export const routeMeta: Record<string, RouteMeta> = {
   "/login": { title: "Sign In", description: "Sign in to your SokoDigital account." },
   "/register": { title: "Create Account", description: "Join SokoDigital as a buyer or seller." },
   "/dashboard": { title: "Dashboard", description: "Manage your orders, listings, and profile." },
+  "/dashboard/listings": { title: "My Listings", description: "View and manage your product listings." },
+  "/dashboard/listings/new": { title: "New Listing", description: "Add a new product listing." },
   "/sell": { title: "Start Selling", description: "Register as a seller on SokoDigital." },
   "/admin": { title: "Admin Dashboard", description: "Manage the SokoDigital platform." },
+  "/order": { title: "Order Details", description: "View your order details and status." },
+  "/thank-you": { title: "Order Confirmed", description: "Your order has been placed successfully." },
+  "/stores": { title: "All Stores", description: "Browse all stores and sellers on SokoDigital." },
 };
+
+/**
+ * Hook for dynamic routes — call this inside a page component to override SEO.
+ * Works together with the static routeMeta in AnimatedPage.
+ */
+export function usePageSEO(title: string, description?: string) {
+  useEffect(() => {
+    const fullTitle = `${title} | ${SITE_NAME}`;
+    document.title = fullTitle;
+
+    const setMeta = (name: string, content: string, property = false) => {
+      const attr = property ? "property" : "name";
+      let el = document.querySelector(`meta[${attr}="${name}"]`);
+      if (!el) {
+        el = document.createElement("meta");
+        el.setAttribute(attr, name);
+        document.head.appendChild(el);
+      }
+      el.setAttribute("content", content);
+    };
+
+    setMeta("description", description || DEFAULT_DESC);
+    setMeta("og:title", fullTitle, true);
+    setMeta("og:description", description || DEFAULT_DESC, true);
+    setMeta("twitter:title", fullTitle);
+    setMeta("twitter:description", description || DEFAULT_DESC);
+  }, [title, description]);
+}
