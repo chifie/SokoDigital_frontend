@@ -24,6 +24,8 @@ import FAQPage from '@/pages/FAQPage';
 import ReturnsPage from '@/pages/ReturnsPage';
 import MessagesPage from '@/pages/MessagesPage';
 import OrderConfirmationPage from '@/pages/OrderConfirmationPage';
+import PrivacyPage from '@/pages/PrivacyPage';
+import TermsPage from '@/pages/TermsPage';
 import { AuthProvider } from '@/lib/auth';
 import { LanguageProvider } from '@/lib/i18n';
 import { WishlistProvider } from '@/lib/wishlist-context';
@@ -36,6 +38,7 @@ import { MobileBottomNav } from '@/components/layout/MobileBottomNav';
 import { OptimizedImage } from '@/components/shared/OptimizedImage';
 import { useWishlist } from '@/lib/wishlist-context';
 import { products } from '@/lib/constants';
+import { SEO, routeMeta } from '@/lib/seo';
 
 const pageVariants = {
   initial: { opacity: 0, y: 12 },
@@ -50,7 +53,8 @@ const pageTransition = {
   duration: 0.3,
 };
 
-function AnimatedPage({ children }: { children: React.ReactNode }) {
+function AnimatedPage({ children, path }: { children: React.ReactNode; path?: string }) {
+  const meta = path ? routeMeta[path] : undefined;
   return (
     <motion.div
       variants={pageVariants}
@@ -59,58 +63,9 @@ function AnimatedPage({ children }: { children: React.ReactNode }) {
       exit="exit"
       transition={pageTransition}
     >
+      {meta && <SEO title={meta.title} description={meta.description} />}
       {children}
     </motion.div>
-  );
-}
-
-function PrivacyPage() {
-  return (
-    <div className="min-h-screen flex flex-col bg-background">
-      <Header />
-      <main className="flex-1 pb-16 lg:pb-0">
-        <div className="mx-auto max-w-3xl px-4 py-12">
-          <h1 className="text-3xl font-bold mb-4">Privacy Policy</h1>
-          <div className="space-y-4 text-sm text-muted-foreground leading-relaxed">
-            <p>At SokoDigital, we take your privacy seriously. This policy describes how we collect, use, and protect your personal information.</p>
-            <h2 className="text-lg font-semibold text-foreground">Information We Collect</h2>
-            <p>We collect information you provide when creating an account, making a purchase, or contacting our support team. This includes your name, email address, phone number, and shipping address.</p>
-            <h2 className="text-lg font-semibold text-foreground">How We Use Your Information</h2>
-            <p>Your information is used to process orders, provide customer support, improve our services, and send relevant updates about your purchases.</p>
-            <h2 className="text-lg font-semibold text-foreground">Data Protection</h2>
-            <p>We implement industry-standard security measures to protect your data. We never share your personal information with third parties without your consent.</p>
-          </div>
-        </div>
-      </main>
-      <Footer />
-      <MobileBottomNav />
-    </div>
-  );
-}
-
-function TermsPage() {
-  return (
-    <div className="min-h-screen flex flex-col bg-background">
-      <Header />
-      <main className="flex-1 pb-16 lg:pb-0">
-        <div className="mx-auto max-w-3xl px-4 py-12">
-          <h1 className="text-3xl font-bold mb-4">Terms of Service</h1>
-          <div className="space-y-4 text-sm text-muted-foreground leading-relaxed">
-            <p>Welcome to SokoDigital. By using our marketplace, you agree to these terms of service.</p>
-            <h2 className="text-lg font-semibold text-foreground">Account Registration</h2>
-            <p>You must provide accurate information when creating an account. You are responsible for maintaining the confidentiality of your login credentials.</p>
-            <h2 className="text-lg font-semibold text-foreground">Purchases & Payments</h2>
-            <p>All transactions are processed securely. Prices are listed in Tanzanian Shillings (TZS) and include applicable taxes unless stated otherwise.</p>
-            <h2 className="text-lg font-semibold text-foreground">Seller Responsibilities</h2>
-            <p>Sellers must accurately describe their products, fulfill orders promptly, and adhere to our quality standards.</p>
-            <h2 className="text-lg font-semibold text-foreground">Returns & Refunds</h2>
-            <p>Returns are accepted within 14 days of delivery for most products. See our refund policy for detailed information.</p>
-          </div>
-        </div>
-      </main>
-      <Footer />
-      <MobileBottomNav />
-    </div>
   );
 }
 
@@ -123,6 +78,7 @@ function WishlistPage() {
 
   return (
     <div className="min-h-screen flex flex-col bg-background">
+      <SEO title="My Wishlist" description="View and manage your saved products on SokoDigital." />
       <Header />
       <main className="flex-1 pb-16 lg:pb-0">
         <div className="mx-auto max-w-7xl px-4 py-12">
@@ -223,35 +179,35 @@ function AppRoutes() {
   return (
     <AnimatePresence mode="wait">
       <Routes location={location} key={location.pathname}>
-        <Route path="/" element={<AnimatedPage><Landing /></AnimatedPage>} />
-        <Route path="/marketplace" element={<AnimatedPage><MarketplacePage /></AnimatedPage>} />
+        <Route path="/" element={<AnimatedPage path="/"><Landing /></AnimatedPage>} />
+        <Route path="/marketplace" element={<AnimatedPage path="/marketplace"><MarketplacePage /></AnimatedPage>} />
         <Route path="/product/:id" element={<AnimatedPage><ProductDetailPage /></AnimatedPage>} />
-        <Route path="/categories" element={<AnimatedPage><CategoriesPage /></AnimatedPage>} />
-        <Route path="/shops" element={<AnimatedPage><ShopsPage /></AnimatedPage>} />
-        <Route path="/deals" element={<AnimatedPage><DealsPage /></AnimatedPage>} />
-        <Route path="/wishlist" element={<AnimatedPage><WishlistPage /></AnimatedPage>} />
-        <Route path="/about" element={<AnimatedPage><AboutPage /></AnimatedPage>} />
-        <Route path="/privacy" element={<AnimatedPage><PrivacyPage /></AnimatedPage>} />
-        <Route path="/terms" element={<AnimatedPage><TermsPage /></AnimatedPage>} />
+        <Route path="/categories" element={<AnimatedPage path="/categories"><CategoriesPage /></AnimatedPage>} />
+        <Route path="/shops" element={<AnimatedPage path="/shops"><ShopsPage /></AnimatedPage>} />
+        <Route path="/deals" element={<AnimatedPage path="/deals"><DealsPage /></AnimatedPage>} />
+        <Route path="/wishlist" element={<AnimatedPage path="/wishlist"><WishlistPage /></AnimatedPage>} />
+        <Route path="/about" element={<AnimatedPage path="/about"><AboutPage /></AnimatedPage>} />
+        <Route path="/privacy" element={<AnimatedPage path="/privacy"><PrivacyPage /></AnimatedPage>} />
+        <Route path="/terms" element={<AnimatedPage path="/terms"><TermsPage /></AnimatedPage>} />
         <Route path="/store/:id" element={<AnimatedPage><StorePage /></AnimatedPage>} />
-        <Route path="/contact" element={<AnimatedPage><ContactPage /></AnimatedPage>} />
-        <Route path="/faq" element={<AnimatedPage><FAQPage /></AnimatedPage>} />
-        <Route path="/returns" element={<AnimatedPage><ReturnsPage /></AnimatedPage>} />
-        <Route path="/messages" element={<AnimatedPage><MessagesPage /></AnimatedPage>} />
+        <Route path="/contact" element={<AnimatedPage path="/contact"><ContactPage /></AnimatedPage>} />
+        <Route path="/faq" element={<AnimatedPage path="/faq"><FAQPage /></AnimatedPage>} />
+        <Route path="/returns" element={<AnimatedPage path="/returns"><ReturnsPage /></AnimatedPage>} />
+        <Route path="/messages" element={<AnimatedPage path="/messages"><MessagesPage /></AnimatedPage>} />
         <Route path="/order/:id" element={<AnimatedPage><OrderConfirmationPage /></AnimatedPage>} />
         <Route path="/thank-you" element={<AnimatedPage><OrderConfirmationPage /></AnimatedPage>} />
-        <Route path="/chat" element={<AnimatedPage><AIChatPage /></AnimatedPage>} />
-        <Route path="/auth" element={<AnimatedPage><AuthPage /></AnimatedPage>} />
-        <Route path="/login" element={<AnimatedPage><AuthPage /></AnimatedPage>} />
-        <Route path="/register" element={<AnimatedPage><AuthPage /></AnimatedPage>} />
-        <Route path="/dashboard" element={<AnimatedPage><DashboardPage /></AnimatedPage>} />
+        <Route path="/chat" element={<AnimatedPage path="/chat"><AIChatPage /></AnimatedPage>} />
+        <Route path="/auth" element={<AnimatedPage path="/auth"><AuthPage /></AnimatedPage>} />
+        <Route path="/login" element={<AnimatedPage path="/login"><AuthPage /></AnimatedPage>} />
+        <Route path="/register" element={<AnimatedPage path="/register"><AuthPage /></AnimatedPage>} />
+        <Route path="/dashboard" element={<AnimatedPage path="/dashboard"><DashboardPage /></AnimatedPage>} />
         <Route path="/dashboard/listings" element={<AnimatedPage><SellerListingsPage /></AnimatedPage>} />
         <Route path="/dashboard/listings/new" element={<AnimatedPage><SellerProductFormPage /></AnimatedPage>} />
         <Route path="/dashboard/listings/:id/edit" element={<AnimatedPage><SellerProductFormPage /></AnimatedPage>} />
-        <Route path="/cart" element={<AnimatedPage><CartPage /></AnimatedPage>} />
-        <Route path="/checkout" element={<AnimatedPage><CheckoutPage /></AnimatedPage>} />
-        <Route path="/sell" element={<AnimatedPage><SellerOnboardingPage /></AnimatedPage>} />
-        <Route path="/admin" element={<AnimatedPage><AdminDashboardPage /></AnimatedPage>} />
+        <Route path="/cart" element={<AnimatedPage path="/cart"><CartPage /></AnimatedPage>} />
+        <Route path="/checkout" element={<AnimatedPage path="/checkout"><CheckoutPage /></AnimatedPage>} />
+        <Route path="/sell" element={<AnimatedPage path="/sell"><SellerOnboardingPage /></AnimatedPage>} />
+        <Route path="/admin" element={<AnimatedPage path="/admin"><AdminDashboardPage /></AnimatedPage>} />
       </Routes>
     </AnimatePresence>
   );
