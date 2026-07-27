@@ -1,5 +1,7 @@
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router';
+import { useEffect } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
+import { perfTracker } from '@/lib/performance-tracker';
 import Landing from '@/pages/Landing';
 import AIChatPage from '@/pages/AIChatPage';
 import MarketplacePage from '@/pages/MarketplacePage';
@@ -130,6 +132,18 @@ function ContactPage() {
 
 function AppRoutes() {
   const location = useLocation();
+
+  // Log performance report after each route navigation
+  useEffect(() => {
+    const t = setTimeout(async () => {
+      const lcp = await perfTracker.getLCP();
+      if (lcp !== null) {
+        console.log(`📸 LCP: ${lcp}ms`);
+      }
+      perfTracker.logReport();
+    }, 3000);
+    return () => clearTimeout(t);
+  }, [location.pathname]);
 
   return (
     <AnimatePresence mode="wait">
