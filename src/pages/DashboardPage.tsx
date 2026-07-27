@@ -15,6 +15,7 @@ import { Footer } from "@/components/layout/Footer";
 import { MobileBottomNav } from "@/components/layout/MobileBottomNav";
 import { AIAssistant } from "@/components/ai/AIAssistant";
 import { cn, formatTZS } from "@/lib/utils";
+import { OptimizedImage } from "@/components/shared/OptimizedImage";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 gsap.registerPlugin(ScrollTrigger);
@@ -193,7 +194,7 @@ export default function DashboardPage() {
                     className="flex items-center gap-4 p-4 rounded-xl border border-border/50 bg-card"
                   >
                     <div className="h-16 w-16 rounded-xl overflow-hidden bg-muted shrink-0">
-                      <img src={item.image} alt={item.name} className="h-full w-full object-cover" />
+                      <OptimizedImage src={item.image} alt={item.name} wrapperClassName="h-full w-full" shimmer={false} />
                     </div>
                     <div className="flex-1 min-w-0">
                       <p className="text-sm font-medium truncate">{item.name}</p>
