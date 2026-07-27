@@ -66,12 +66,12 @@ export function OptimizedImage({
   const loadTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const imgRef = useRef<HTMLImageElement>(null);
 
-  // Timeout fallback: if image doesn't load in 8s, show error
+  // Timeout fallback: if image doesn't load in 5s, show error
   useEffect(() => {
     if (!imgLoaded && !imgError && src) {
       loadTimeoutRef.current = setTimeout(() => {
         if (!imgLoaded) setImgError(true);
-      }, 8000);
+      }, 5000);
     }
     return () => {
       if (loadTimeoutRef.current) clearTimeout(loadTimeoutRef.current);
