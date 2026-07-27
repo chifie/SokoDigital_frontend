@@ -28,6 +28,80 @@ function getFormatVariants(url: string | undefined) {
 }
 
 /* ─── Kichi‑style Hero — horizontal CSS slide, rise‑fade content, no progress bar ─── */
+/**
+ * Renders a <picture> element with AVIF / WebP / JPEG fallback
+ * using format variants generated from the Unsplash URL.
+ */
+function FormatPicture({ desktopUrl, mobileUrl, alt, idx, fallbackContent }: {
+  desktopUrl: string;
+  mobileUrl: string;
+  alt: string;
+  idx: number;
+  fallbackContent: React.ReactNode;
+}) {
+  const { avif, webp, jpeg } = useMemo(() => getFormatVariants(desktopUrl), [desktopUrl]);
+  const mobileVariants = useMemo(() => getFormatVariants(mobileUrl), [mobileUrl]);
+
+  const [imgError, setImgError] = useState(false);
+  const fallbackRef = useRef<HTMLDivElement>(null);
+
+  const handleError = useCallback(() => {
+    setImgError(true);
+    if (fallbackRef.current) {
+      fallbackRef.current.style.display = "flex";
+    }
+  }, []);
+
+  if (imgError || !desktopUrl) {
+    return (
+      <div ref={fallbackRef} className="w-full h-full flex flex-col items-center justify-center bg-gradient-to-br from-orange-100 to-amber-50 dark:from-orange-950/30 dark:to-amber-950/20 gap-2">
+        {fallbackContent}
+      </div>
+    );
+  }
+
+  return (
+    <>
+      <picture className="w-full h-full block">
+        {/* Mobile-first: smaller image for small screens */}
+        <source
+          media="(max-width: 639px)"
+          srcSet={mobileVariants.avif}
+          type="image/avif"
+        />
+        <source
+          media="(max-width: 639px)"
+          srcSet={mobileVariants.webp}
+          type="image/webp"
+        />
+        <source
+          media="(max-width: 639px)"
+          srcSet={mobileVariants.jpeg}
+        />
+        {/* Desktop: AVIF (smallest) */}
+        <source srcSet={avif} type="image/avif" />
+        {/* Desktop: WebP (medium) */}
+        <source srcSet={webp} type="image/webp" />
+        {/* Desktop: JPEG fallback */}
+        <img
+          src={jpeg}
+          alt={alt}
+          className="w-full h-full object-cover"
+          loading={idx === 0 ? "eager" : "lazy"}
+          onError={handleError}
+        />
+      </picture>
+      {/* Fallback (initially hidden) */}
+      <div
+        ref={fallbackRef}
+        className="banner-fallback absolute inset-0 hidden flex-col items-center justify-center bg-gradient-to-br from-orange-100 to-amber-50 dark:from-orange-950/30 dark:to-amber-950/20 gap-2"
+      >
+        {fallbackContent}
+      </div>
+    </>
+  );
+}
+
 export function Hero() {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
