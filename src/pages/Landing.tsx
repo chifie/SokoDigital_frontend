@@ -161,12 +161,8 @@ export default function Landing() {
     { selector: '.landing-store-link', stagger: 0.03, from: { y: 12, scale: 0.95 }, to: { scale: 1 }, duration: 0.3, ease: 'power3.out', start: 'top 92%' },
     // All products section
     { selector: '.landing-products-section', single: true, duration: 0.5, ease: 'power3.out', from: { y: 18 }, start: 'top 92%' },
-    // Download app section
-    { selector: '.landing-download-app', single: true, duration: 0.5, ease: 'power3.out', from: { y: 18 }, start: 'top 92%' },
-    // Store badges — horizontal slide-in from left
-    { selector: '.landing-store-badge', stagger: 0.1, duration: 0.4, ease: 'power3.out', from: { x: -20 }, start: 'top 92%' },
-    // Download section text
-    { selector: '.landing-feature-text', stagger: 0.06, duration: 0.4, ease: 'power3.out', from: { y: 12 }, start: 'top 92%' },
+    // Download app section — merged all download-related animations into one trigger
+    { selector: '.landing-download-app, .landing-store-badge, .landing-feature-text', stagger: 0.08, duration: 0.4, ease: 'power3.out', from: { y: 15 }, start: 'top 92%' },
   ]);
 
   return (

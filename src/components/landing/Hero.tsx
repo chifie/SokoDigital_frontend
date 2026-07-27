@@ -39,6 +39,7 @@ function FormatPicture({ desktopUrl, mobileUrl, alt, idx, fallbackContent }: {
   idx: number;
   fallbackContent: React.ReactNode;
 }) {
+  const isUnsplash = desktopUrl.includes("unsplash.com");
   const { avif, webp, jpeg } = useMemo(() => getFormatVariants(desktopUrl), [desktopUrl]);
   const mobileVariants = useMemo(() => getFormatVariants(mobileUrl), [mobileUrl]);
 
@@ -57,6 +58,28 @@ function FormatPicture({ desktopUrl, mobileUrl, alt, idx, fallbackContent }: {
       <div ref={fallbackRef} className="w-full h-full flex flex-col items-center justify-center bg-gradient-to-br from-orange-100 to-amber-50 dark:from-orange-950/30 dark:to-amber-950/20 gap-2">
         {fallbackContent}
       </div>
+    );
+  }
+
+  // Local images (PNG/WebP) — use a plain <img> instead of <picture> with format types
+  // to avoid failed AVIF/WebP decode attempts on non-Unsplash files
+  if (!isUnsplash) {
+    return (
+      <>
+        <img
+          src={desktopUrl}
+          alt={alt}
+          className="w-full h-full object-cover"
+          loading={idx === 0 ? "eager" : "lazy"}
+          onError={handleError}
+        />
+        <div
+          ref={fallbackRef}
+          className="banner-fallback absolute inset-0 hidden flex-col items-center justify-center bg-gradient-to-br from-orange-100 to-amber-50 dark:from-orange-950/30 dark:to-amber-950/20 gap-2"
+        >
+          {fallbackContent}
+        </div>
+      </>
     );
   }
 

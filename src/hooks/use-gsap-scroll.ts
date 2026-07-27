@@ -4,8 +4,13 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 gsap.registerPlugin(ScrollTrigger);
 
-// Enable smoother scroll performance with normalized scroll handling
-ScrollTrigger.normalizeScroll();
+// ── Performance tuning ──
+// Batch callbacks to reduce layout thrashing
+ScrollTrigger.config({ limitCallbacks: true });
+// Only refresh on visibility change, not on every scroll/orientation event
+// This dramatically reduces ScrollTrigger recalculation during fast scrolling
+ScrollTrigger.config({ autoRefreshEvents: "visibilitychange" });
+
 
 export interface ScrollAnimDef {
   /** CSS selector for elements to animate */
@@ -90,6 +95,17 @@ export function useGsapScroll(
         if (!triggerEl) continue;
 
         const elemCount = elements instanceof NodeList ? elements.length : 1;
+
+        // Add will-change hint to reduce repaint cost during animation
+        if (elements instanceof NodeList) {
+          elements.forEach((el) => {
+            if (el instanceof HTMLElement) {
+              el.style.willChange = 'transform, opacity';
+            }
+          });
+        } else if (elements instanceof HTMLElement) {
+          elements.style.willChange = 'transform, opacity';
+        }
 
         gsap.fromTo(
           elements,
