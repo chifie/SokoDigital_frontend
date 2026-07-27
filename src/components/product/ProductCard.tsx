@@ -235,28 +235,17 @@ export function ProductCard({ product, index = 0, compact = false }: ProductCard
             </span>
           )}
 
-          {/* Image with blur-up transition */}
-          {imgError ? (
-            <div className="w-full h-full flex flex-col items-center justify-center bg-gradient-to-br from-muted/60 to-muted/30 dark:from-muted/40 dark:to-muted/10 gap-1">
-              <ImageIcon className="h-6 w-6 text-muted-foreground/40" />
-              <span className="text-[9px] text-muted-foreground/50 font-medium">{product.name.slice(0, 2).toUpperCase()}</span>
-            </div>
-          ) : (
-            <img
-              src={product.images?.[0]}
-              alt={product.name}
-              loading="lazy"
-              className={cn(
-                "product-card-image w-full h-full object-cover transition-all duration-500",
-                imgLoaded ? "opacity-100 blur-0 scale-100" : "opacity-100 blur-md scale-105"
-              )}
-              onLoad={() => {
-                setImgLoaded(true);
-                if (loadTimeoutRef.current) clearTimeout(loadTimeoutRef.current);
-              }}
-              onError={() => setImgError(true)}
-            />
-          )}
+          {/* Optimized image with srcset, lazy loading, and fallback */}
+          <OptimizedImage
+            src={product.images?.[0]}
+            alt={product.name}
+            className="product-card-image w-full h-full object-cover"
+            loading="lazy"
+            width={400}
+            sizes="(max-width: 639px) 50vw, (max-width: 1023px) 33vw, 20vw"
+            shimmer={true}
+            wrapperClassName="absolute inset-0"
+          />
         </div>
 
         <div className={cn(compact ? "p-1.5" : "p-2")}>
