@@ -40,7 +40,7 @@ class PerformanceTracker {
     // Only enable in production or when ?perf=true is present
     if (typeof window !== "undefined") {
       this.enabled =
-        process.env.NODE_ENV === "production" ||
+        import.meta.env.PROD ||
         new URLSearchParams(window.location.search).has("perf");
     }
   }
