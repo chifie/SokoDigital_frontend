@@ -28,26 +28,11 @@ export function ProductCard({ product, index = 0, compact = false }: ProductCard
   const navigate = useNavigate();
   const { addItem } = useCart();
   const [isWishlisted, setIsWishlisted] = useState(false);
-  const [imgError, setImgError] = useState(false);
-  const [imgLoaded, setImgLoaded] = useState(false);
   const [isAdding, setIsAdding] = useState(false);
   const [flyElements, setFlyElements] = useState<FlyElement[]>([]);
   const buttonRef = useRef<HTMLButtonElement>(null);
   const flyTimeoutsRef = useRef<ReturnType<typeof setTimeout>[]>([]);
   const cardRef = useRef<HTMLDivElement>(null);
-  const loadTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-
-  // Image load timeout fallback: if image doesn't load in 5s, show fallback
-  useEffect(() => {
-    if (!imgLoaded && !imgError) {
-      loadTimeoutRef.current = setTimeout(() => {
-        setImgError(true);
-      }, 5000);
-    }
-    return () => {
-      if (loadTimeoutRef.current) clearTimeout(loadTimeoutRef.current);
-    };
-  }, [imgLoaded, imgError]);
 
   // Cleanup fly timeouts on unmount
   useEffect(() => {
