@@ -91,17 +91,16 @@ export function Hero() {
       if (isAnimatingRef.current || targetIndex === currentSlide) return;
       isAnimatingRef.current = true;
       if (autoplayRef.current) clearTimeout(autoplayRef.current);
+      if (animTimeoutRef.current) clearTimeout(animTimeoutRef.current);
 
       setCurrentSlide(targetIndex);
 
-      // Wait for CSS transition to finish, then animate content & restart autoplay
-      setTimeout(() => {
+      // Wait for CSS transition to finish, then allow next animation
+      animTimeoutRef.current = setTimeout(() => {
         isAnimatingRef.current = false;
-        animateSlideContent(targetIndex);
-        scheduleNext();
       }, 400); // matches CSS transition duration
     },
-    [currentSlide, animateSlideContent, scheduleNext]
+    [currentSlide]
   );
 
   const handleNext = useCallback(() => {
