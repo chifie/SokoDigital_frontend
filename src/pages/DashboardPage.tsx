@@ -13,7 +13,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { MobileBottomNav } from "@/components/layout/MobileBottomNav";
-import { AIAssistant } from "@/components/ai/AIAssistant";
+import { AIWidget } from "@/components/site/AIWidget";
 import { cn, formatTZS } from "@/lib/utils";
 import { OptimizedImage } from "@/components/shared/OptimizedImage";
 import { gsap } from "gsap";
@@ -302,7 +302,7 @@ export default function DashboardPage() {
       </main>
       <Footer />
       <MobileBottomNav />
-      <AIAssistant />
+      <AIWidget />
     </motion.div>
   );
 }
