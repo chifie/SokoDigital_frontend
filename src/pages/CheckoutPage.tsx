@@ -15,7 +15,7 @@ import { Separator } from "@/components/ui/separator";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { MobileBottomNav } from "@/components/layout/MobileBottomNav";
-import { AIAssistant } from "@/components/ai/AIAssistant";
+import { AIWidget } from "@/components/site/AIWidget";
 import { paymentMethods } from "@/lib/constants";
 import { cn, formatTZS } from "@/lib/utils";
 import { gsap } from "gsap";
@@ -95,7 +95,7 @@ export default function CheckoutPage() {
         </main>
         <Footer />
         <MobileBottomNav />
-        <AIAssistant />
+        <AIWidget />
       </motion.div>
     );
   }
@@ -349,7 +349,7 @@ export default function CheckoutPage() {
       </main>
       <Footer />
       <MobileBottomNav />
-      <AIAssistant />
+      <AIWidget />
     </motion.div>
   );
 }

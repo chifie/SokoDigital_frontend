@@ -15,7 +15,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { MobileBottomNav } from "@/components/layout/MobileBottomNav";
-import { AIAssistant } from "@/components/ai/AIAssistant";
+import { AIWidget } from "@/components/site/AIWidget";
 import { cn, formatTZS } from "@/lib/utils";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -558,7 +558,7 @@ export default function AdminDashboardPage() {
       </main>
       <Footer />
       <MobileBottomNav />
-      <AIAssistant />
+      <AIWidget />
     </motion.div>
   );
 }
