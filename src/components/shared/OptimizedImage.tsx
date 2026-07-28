@@ -139,8 +139,7 @@ export function OptimizedImage({
           style={aspectRatio ? { position: "absolute", top: 0, left: 0, width: "100%", height: "100%" } : undefined}
           onLoad={() => {
             setImgLoaded(true);
-            if (loadTimeoutRef.current) clearTimeout(loadTimeoutRef.current);
-            onLoad?.();
+onLoad?.();
           }}
           onError={() => {
             setImgError(true);
