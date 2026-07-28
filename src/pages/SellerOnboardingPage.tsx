@@ -4,7 +4,8 @@ import { useNavigate } from "react-router";
 import {
   ArrowLeft, ArrowRight, Check, Store, User, MapPin,
   Shield, CreditCard, Truck, Image, FileText,
-  Smartphone, Landmark, Globe, Camera, Upload
+  Smartphone, Landmark, Globe, Camera, Upload,
+  Eye, EyeOff
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -44,6 +45,8 @@ const businessTypes = [
 ];
 
 function StepAccount({ formData, updateForm }: StepProps) {
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   return (
     <div className="space-y-4">
       <div className="grid sm:grid-cols-2 gap-4">
@@ -77,17 +80,41 @@ function StepAccount({ formData, updateForm }: StepProps) {
         </div>
         <div>
           <Label className="text-xs font-medium">Password *</Label>
-          <Input
-            type="password"
-            placeholder="Min. 8 characters"
-            value={formData.password || ""}
-            onChange={(e) => updateForm("password", e.target.value)}
-            className="h-11 rounded-xl mt-1"
-          />
+          <div className="relative mt-1">
+            <Input
+              type={showPassword ? "text" : "password"}
+              placeholder="Min. 8 characters"
+              value={formData.password || ""}
+              onChange={(e) => updateForm("password", e.target.value)}
+              className="h-11 rounded-xl pr-10"
+            />
+            <button
+              type="button"
+              onClick={() => setShowPassword((prev) => !prev)}
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
+              aria-label={showPassword ? "Hide password" : "Show password"}
+            >
+              {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+            </button>
+          </div>
         </div>
         <div>
           <Label className="text-xs font-medium">Confirm Password *</Label>
-          <Input type="password" placeholder="Repeat password" className="h-11 rounded-xl mt-1" />
+          <div className="relative mt-1">
+            <Input
+              type={showConfirmPassword ? "text" : "password"}
+              placeholder="Repeat password"
+              className="h-11 rounded-xl pr-10"
+            />
+            <button
+              type="button"
+              onClick={() => setShowConfirmPassword((prev) => !prev)}
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
+              aria-label={showConfirmPassword ? "Hide password" : "Show password"}
+            >
+              {showConfirmPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+            </button>
+          </div>
         </div>
       </div>
     </div>
