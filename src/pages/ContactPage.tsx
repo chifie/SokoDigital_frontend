@@ -58,7 +58,7 @@ export default function ContactPage() {
             <div className="space-y-4">
               {[
                 { icon: Mail, title: "Email", desc: "support@sokodigital.co.tz", sub: "We reply within 2 hours" },
-                { icon: Phone, title: "Phone", desc: "+255 712 308 046", sub: "Mon-Fri 8AM-6PM" },
+                { icon: Phone, title: "Phone", desc: "+255 712 008 046", sub: "Mon-Fri 8AM-6PM" },
                 { icon: MapPin, title: "Location", desc: "Dar es Salaam, Tanzania", sub: "Samora Avenue" },
                 { icon: Clock, title: "Business Hours", desc: "Monday - Friday", sub: "8:00 AM - 6:00 PM" },
               ].map((item, i) => {
